@@ -34,7 +34,7 @@ metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudec
 1. **人物问题优先**。锁定主视角想办成什么、什么挡住他、他会如何选择。情绪目标只做写后检查，不反向配置正文元素。
 2. **锁定读者当下的问题**。按 `references/reader-seat-prose.md` 维护 Reader Attention Lock：下一段要么推进读者最想知道的事，要么推进人物当前任务，要么支付理解两者的必要信息成本。
 3. **借鉴不照模板**。扫榜、拆文和对标用于理解契约、因果和节奏；题材模块是候选，不是正文配额。
-4. **只加载必需信息**。每章只读“不知道就会写错”的角色状态、待收伏笔、相关设定。其余留在文件系统里。
+4. **只加载必需信息**。每章读“不知道就会写错”的角色状态、待收伏笔、相关设定。其余留在文件系统里。
 5. **契约与推进决策走权威参考文件**。涉及读者契约、主角代理权、利益安全、期待债、终局储备（终局底牌/升级台阶）、机构/势力边界和 契约安全 / 需补强 / 契约破坏 风险判定时，先按 `references/reader-contract-and-progression.md` 校准，不在 SKILL.md 内复制长规则。
 6. **复用作者习惯**。若作者记忆 state 已存在，正文前用 `scripts/author_memory_commit.py query --kind prose_style --kind story_design` 获取本次相关 active 条目（总输出 ≤2KB），原样传给实际正文/改写 agent；设定/大纲按任务查询其他 kind。硬门禁、当前请求、本书设定/文风优先。明确长期声明在收尾用 `record` 写入并回传回执；完整规则见 [references/author-memory.md](references/author-memory.md)，不混入追踪。
 
