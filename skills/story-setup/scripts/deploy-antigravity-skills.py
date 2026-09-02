@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Materialize oh-story skills into a project-local Antigravity skill root.
+"""Materialize the authoritative oh-story bundle into a local skill root.
 
-Only the 14 known oh-story directories are replaced. Unknown user skills are
-preserved. An existing ``.agents/skills`` symlink is never followed for writes;
+Only the 22 known oh-story directories are replaced. Unknown user skills are
+preserved. An existing destination symlink is never followed for writes;
 it can be materialized only after the caller explicitly opts in.
 """
 
@@ -18,18 +18,26 @@ from pathlib import Path
 KNOWN_SKILLS = (
     "browser-cdp",
     "story",
+    "story-chinese-proofreading",
     "story-cover",
     "story-deslop",
+    "story-fanqie-compliance",
     "story-import",
     "story-long-analyze",
     "story-long-scan",
     "story-long-write",
+    "story-natural-drafting",
+    "story-originality-audit",
     "story-project-pipeline-monitor",
+    "story-prose-style",
+    "story-reader-cold-read",
     "story-review",
+    "story-serial-performance-diagnostics",
     "story-setup",
     "story-short-analyze",
     "story-short-scan",
     "story-short-write",
+    "story-workflow",
 )
 
 

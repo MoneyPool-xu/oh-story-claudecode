@@ -1,0 +1,4 @@
+interface:
+  display_name: "小说自然写作"
+  short_description: "写作前预防模板化、平均用力、解释过满和人物同声等AI文风"
+  default_prompt: "Use $story-natural-drafting to generate and validate the mandatory chapter drafting directive first, then pass the complete directive into the novel-writing step."

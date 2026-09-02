@@ -12,6 +12,15 @@ compare 链接；小节名使用 Keep a Changelog 的六个英文类别（`Added
 
 ## [Unreleased]
 
+### Added
+
+- 将 `story-natural-drafting`、`story-workflow`、`story-prose-style`、`story-reader-cold-read`、`story-chinese-proofreading`、`story-originality-audit`、`story-fanqie-compliance`、`story-serial-performance-diagnostics` 收编进 fork，形成 22 Skill 权威包。
+- 新增 Skill bundle 契约测试，锁定自然起草的三条反模板规则与 workflow 的全流程监测交接。
+
+### Changed
+
+- `story-setup` 升至 `1.3.0`；Claude Code、Antigravity 与其他 skills-only 目标均从 fork 的同一 22 Skill 清单部署，保留目标目录中的未知用户 Skill。
+
 ## [0.7.9] - 2026-08-30
 
 > 本版改了 narrative-writer 模板与短篇 reference bundle，`agents_version` 升到 29。升级后必须在写作项目根重新运行 `/story-setup` 并新开会话，否则拿到的仍是旧 agent 与旧参考文件。

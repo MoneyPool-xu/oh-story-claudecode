@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "网络小说创作工具箱 — 扫榜、拆文、写作全流程 Claude Code skill，覆盖长篇与短篇网文",
-    "version": "0.7.9"
+    "version": "0.8.0"
   },
   "plugins": [
     {
@@ -47,6 +47,86 @@
       "category": "novel-quality",
       "keywords": ["pipeline", "dashboard", "diagnostics", "全流程", "期待债", "规则提炼", "chinese"],
       "skills": ["./skills/story-project-pipeline-monitor"]
+    },
+    {
+      "name": "story-workflow",
+      "description": "网文全流程编排。串联立项、规划、正文、冷读、去 AI 味、中文终校、合规与发布检查。",
+      "source": "./",
+      "strict": false,
+      "version": "1.4.0",
+      "category": "novel-writing",
+      "keywords": ["workflow", "orchestration", "quality-gate", "网文", "写作流程", "chinese"],
+      "skills": ["./skills/story-workflow"]
+    },
+    {
+      "name": "story-natural-drafting",
+      "description": "自然正文起草。用读者现场感、角色有限认知与非模板化句法生成网文正文。",
+      "source": "./",
+      "strict": false,
+      "version": "1.1.0",
+      "category": "novel-writing",
+      "keywords": ["drafting", "natural-language", "reader-view", "去AI味", "chinese"],
+      "skills": ["./skills/story-natural-drafting"]
+    },
+    {
+      "name": "story-prose-style",
+      "description": "网文文风控制。管理叙事距离、句式、节奏、意象与角色化表达。",
+      "source": "./",
+      "strict": false,
+      "version": "1.2.0",
+      "category": "novel-writing",
+      "keywords": ["prose", "style", "voice", "叙事", "文风", "chinese"],
+      "skills": ["./skills/story-prose-style"]
+    },
+    {
+      "name": "story-reader-cold-read",
+      "description": "读者冷读。以信息差、翻页动力、情绪兑现和连续性检查正文读感。",
+      "source": "./",
+      "strict": false,
+      "version": "1.1.0",
+      "category": "novel-quality",
+      "keywords": ["cold-read", "reader", "continuity", "读感", "审稿", "chinese"],
+      "skills": ["./skills/story-reader-cold-read"]
+    },
+    {
+      "name": "story-chinese-proofreading",
+      "description": "中文终校。检查错别字、标点、语病、术语一致性与网文阅读心流。",
+      "source": "./",
+      "strict": false,
+      "version": "1.1.0",
+      "category": "novel-quality",
+      "keywords": ["proofreading", "punctuation", "中文校对", "错别字", "chinese"],
+      "skills": ["./skills/story-chinese-proofreading"]
+    },
+    {
+      "name": "story-originality-audit",
+      "description": "原创性审计。检查表达、桥段与结构的近似风险，并给出可追溯改写建议。",
+      "source": "./",
+      "strict": false,
+      "version": "1.1.0",
+      "category": "novel-quality",
+      "keywords": ["originality", "similarity", "audit", "原创", "风险", "chinese"],
+      "skills": ["./skills/story-originality-audit"]
+    },
+    {
+      "name": "story-fanqie-compliance",
+      "description": "番茄平台合规检查。识别发布前内容、格式与平台规则风险。",
+      "source": "./",
+      "strict": false,
+      "version": "1.1.0",
+      "category": "novel-quality",
+      "keywords": ["fanqie", "compliance", "platform", "番茄", "合规", "chinese"],
+      "skills": ["./skills/story-fanqie-compliance"]
+    },
+    {
+      "name": "story-serial-performance-diagnostics",
+      "description": "连载表现诊断。结合章节结构与可用运营数据定位留存、追读和兑现问题。",
+      "source": "./",
+      "strict": false,
+      "version": "1.1.0",
+      "category": "novel-quality",
+      "keywords": ["serialization", "retention", "performance", "连载", "追读", "chinese"],
+      "skills": ["./skills/story-serial-performance-diagnostics"]
     },
     {
       "name": "story-long-write",

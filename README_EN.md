@@ -143,6 +143,14 @@ After updating, if a project has already run `/story-setup`, re-run `/story-setu
 | `story-setup` | `/story-setup` / `$story-setup` | Environment setup — Claude/Antigravity/OpenCode/Codex/ZCode/OpenClaw/Reasonix plus generic (safe merge) |
 | `story` | `/story` / `$story` / `/story dashboard` | Toolbox router, author-preference management, and local deconstruction/project dashboard |
 | `story-project-pipeline-monitor` | `/story dashboard` / `/全流程监测` | End-to-end workflow status plus reader-debt and Skill-candidate inflation diagnostics |
+| `story-workflow` | `/story-workflow` | End-to-end orchestration with mandatory post-cold-read de-slopping, Chinese proofreading, and release gates |
+| `story-natural-drafting` | `/story-natural-drafting` | Natural drafting from reader immediacy and character-limited knowledge |
+| `story-prose-style` | `/story-prose-style` | Prose control for narrative distance, rhythm, imagery, and character voice |
+| `story-reader-cold-read` | `/story-reader-cold-read` | Reader-focused cold read for information gaps, page-turn pressure, payoff, and continuity |
+| `story-chinese-proofreading` | `/story-chinese-proofreading` | Final Chinese proofreading for typos, punctuation, grammar, terminology, and reading flow |
+| `story-originality-audit` | `/story-originality-audit` | Traceable originality and similarity-risk audit |
+| `story-fanqie-compliance` | `/story-fanqie-compliance` | Fanqie-oriented pre-publication content and formatting compliance checks |
+| `story-serial-performance-diagnostics` | `/story-serial-performance-diagnostics` | Serialization diagnostics for retention, continued reading, and payoff performance |
 | `story-long-write` | `/story-long-write` | Long-form writing — outline building, character design, prose output |
 | `story-long-analyze` | `/story-long-analyze` | Long-form deconstruction — Golden First 3 Chapters, payoff design, pacing analysis |
 | `story-long-scan` | `/story-long-scan` | Long-form trend scan — Qidian/Fanqie/Jinjiang market trends |

@@ -21,6 +21,14 @@ metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudec
 | 选题决策 | 写什么能爆、帮我选题、选题方向 | `/story-long-scan` |
 | 短篇扫榜 | 短篇排行、知乎盐言排行 | `/story-short-scan` |
 | 去 AI 味 | 去 AI 味、太 AI、去味 | `/story-deslop` |
+| 自然成稿 | 从源头去 AI 味、真人文风、生成写作指令卡、避免平均用力 | `/story-natural-drafting` |
+| 项目文风 | 按我的文风、统一文风、角色声纹、对白说人话、文风漂移 | `/story-prose-style` |
+| 读者冷读 | 冷读、盲读、读者视角、哪里看不懂、弃读点 | `/story-reader-cold-read` |
+| 中文终校 | 校对、错别字、病句、标点、专名统一、终校 | `/story-chinese-proofreading` |
+| 原创性审计 | 洗稿风险、撞梗、抄袭自查、改编距离、来源审计 | `/story-originality-audit` |
+| 番茄合规 | 番茄审核、发布规范、发布前检查、恶意水文 | `/story-fanqie-compliance` |
+| 连载数据诊断 | 掉量、追读下降、完读率、章留、评论复盘 | `/story-serial-performance-diagnostics` |
+| 全流程编排 | 全流程、下一步做什么、从开书到发布、整套检查、返工后重检 | `/story-workflow` |
 | 审查稿件 | 审查、审稿、帮我审一下、一致性检查、看看有没有问题 | `/story-review` |
 | 封面 | 封面、封面图 | `/story-cover` |
 | 环境部署 | 准备写书、搭环境、初始化 | `/story-setup` |

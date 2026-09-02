@@ -1,0 +1,4 @@
+interface:
+  display_name: "网文全流程编排"
+  short_description: "串联写前防AI、章节指令、正文创作、返工审查和发布门禁"
+  default_prompt: "Use $story-workflow to inspect my novel project, generate and validate the mandatory chapter directive before drafting, then run the smallest necessary post-write gates."
