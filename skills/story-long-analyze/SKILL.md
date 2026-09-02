@@ -1,6 +1,6 @@
 ---
 name: story-long-analyze
-version: 1.1.1
+version: 1.1.2
 description: "长篇网文拆文。单一管道依次完成事实素材提取、读者动力机制解释、Skill 候选提炼与跨书验证；黄金三章后可停靠，确认后自动续跑，不要求用户另行调用机制分析。触发方式：/story-long-analyze、/长篇拆文、「帮我拆这本书」「拆这本书」「分析黄金三章」「深度拆解」「完整拆解」「系统拆解」或提供小说文本文件路径。"
 metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudecode"}}
 ---
@@ -201,7 +201,7 @@ Stage 4/5 必须在事实层冻结后运行；不得把机制判断反写进 Sta
 
 单章/单阶段失败不阻断管道。失败记录到 `_progress.md` 的「失败记录」表（`| 类型 | 章节/阶段 | 错误信息 | 重试状态 |`）。最终状态可为 `completed_with_errors`（在拆文报告中注明失败详情）。
 
-> 与 material-decomposition.md 的对应关系：Stage 0 含 Material 阶段1（章节解析）；Stage 1、5 为新增；Stage 2 = Material 阶段2；Stage 3 = Material 阶段3；Stage 4 合并 Material 阶段4+5。
+> `material-decomposition.md` 只用「事实层步骤」表示内部方法顺序，不另建 Stage 编号；主流程阶段始终以本文件 Stage 0-6 为准。
 
 详细模板见 [output-templates.md](references/output-templates.md)，方法论见 [material-decomposition.md](references/material-decomposition.md)。
 
