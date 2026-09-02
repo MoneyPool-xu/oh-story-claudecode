@@ -86,6 +86,7 @@ Rubric Source: file | embedded fallback
 | 通用质量清单 | `story-review/references/review-quality.md` |
 | 通用内容评分 rubric | `story-review/references/quality-rubric.md` |
 | 去 AI 味方法 | `story-review/references/anti-ai-writing.md` |
+| 读者席位与限知视角 | `story-review/references/reader-seat-prose.md` |
 | 剧情循环/高潮公式 | `story-review/references/plot-core-methods.md` |
 | 角色关系/好感度 | `story-review/references/character-relations.md` |
 | 对话质量 | `story-review/references/dialogue-mastery.md` |
@@ -289,6 +290,8 @@ full/lean 模式下，主会话必须把“审查基准包摘要”直接写进�
 **Agent 3: narrative-writer**（subagent_type: narrative-writer）
 - full 模式调用。
 - 审查视角：AI味检测（含解释腔/上帝感/安排感=模式 8）、情绪烈度（够不够爽/会不会太保守）、格式合规、节奏均匀度、文字自然度。
+- 同时按 `reader-seat-prose.md` 审查 Reader Attention Lock：每个场景读者正在等什么、人物正在办什么，相邻段落是否推进两者或支付必要信息成本。三者都不是的段落标为作者自说风险。
+- 审查信息负债：新专名/规则/机构是否在被使用、造成后果或连到旧知识前又引入下一个。不按固定数量扣分，只指出理解速度跟不上引入速度的具体位置。
 - 提示指令：
   ```
   你是 narrative-writer，从文字质量层面审查以下内容。

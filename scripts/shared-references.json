@@ -11,6 +11,16 @@
       ]
     },
     {
+      "name": "reader-seat-prose",
+      "source": "skills/story-long-write/references/reader-seat-prose.md",
+      "targets": [
+        "skills/story-short-write/references/reader-seat-prose.md",
+        "skills/story-deslop/references/reader-seat-prose.md",
+        "skills/story-review/references/reader-seat-prose.md",
+        "skills/story-setup/references/agent-references/reader-seat-prose.md"
+      ]
+    },
+    {
       "name": "author-memory-reference",
       "source": "skills/story/references/author-memory.md",
       "targets": [

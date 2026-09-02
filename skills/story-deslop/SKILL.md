@@ -10,6 +10,8 @@ metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudec
 
 **核心信念：AI 味的主要问题并非语法错误；更常见的是过度圆滑、工整、解释充分。改写目标是保留剧情功能，同时增加口语、停顿、跳跃和具体动作。**
 
+正文涉及视角、解释腔、作者上帝手或读者信息差时，执行前完整读取 [references/reader-seat-prose.md](references/reader-seat-prose.md)。去 AI 味后必须保持原文的意识中心和信息边界；不得为了「更好看」补出原文未有的动机、真相或全知转场。
+
 ---
 
 > Agent 兼容性：只检查当前运行时的 canonical 目录：Claude `.claude/agents/{agent}.md`、OpenCode `.opencode/agents/{agent}.md`、Codex `.codex/agents/{agent}.toml`、Antigravity `.agents/agents/agent-name/agent.md`（`agent-name` 为目标 agent 名），不得因其他端文件存在而误判。Codex 使用同名 `agent_type`；Antigravity 使用 `invoke_subagent` + `TypeName`。对应运行时未暴露 custom-agent registry / `invoke_subagent` 或返回未知 agent 时，必须降级 solo/direct。检测到 `.zcode/` 时同样直接 solo/direct，因为 ZCode 3.3.4 不执行项目 custom agents；报告 `Fallback: project custom agents unavailable -> solo`。Claude/OpenCode 兼容面保留 `subagent_type`。
@@ -60,7 +62,7 @@ AI味不按语法错误处理，也不需要"修正"。它属于风格问题：�
 | 维度 | 自然文本 | AI味文本 |
 |------|----------|--------|
 | 段落长度 | 随 beat 长短不一：爽点/转折压短，推理/氛围/情绪链放长 | 通篇同一长度，整齐均匀 |
-| 句内节奏 | 叙述以逗号长句为主（逗号之间 8-12 字、整句 20-30 字，见 anti-ai-writing.md 规则 3） | 要么长句臃肿，要么通篇碎句像提纲 |
+| 句内节奏 | 长短服从人物思考、场景压力、信息难度、叙事距离和作品声线 | 要么长句臃肿，要么通篇碎句像提纲，或长短交替过分整齐 |
 | 对话标签 | 标签低频且不公式化，多用动作/上下文引出；普通"说"可保留 | 几乎每句都有"说道/问道/笑道" |
 | 情绪表达 | 动作展示（"手在抖"） | 直接告诉（"很紧张"） |
 | 比喻 | 生活化（"像哈士奇护食"） | 文学化（"如寒冰般"） |
