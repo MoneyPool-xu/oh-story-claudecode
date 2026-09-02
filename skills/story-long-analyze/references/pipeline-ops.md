@@ -2,7 +2,7 @@
 
 story-long-analyze 拆解管道的运维工具文档：`_progress.md` 模板、错误处理、恢复机制操作步骤。
 
-> 质量阈值（置信度 / 覆盖率 / 重叠率）见 [material-decomposition.md 质量阈值体系](material-decomposition.md)。
+> 质量诊断（置信度 / 覆盖率 / 重叠率）见 [material-decomposition.md 质量诊断体系](material-decomposition.md)。统计用于发现异常，不作为目标函数。
 
 ---
 

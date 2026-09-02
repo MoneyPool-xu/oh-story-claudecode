@@ -1,6 +1,6 @@
 ---
 name: story-long-analyze
-version: 1.1.0
+version: 1.1.1
 description: "长篇网文拆文。单一管道依次完成事实素材提取、读者动力机制解释、Skill 候选提炼与跨书验证；黄金三章后可停靠，确认后自动续跑，不要求用户另行调用机制分析。触发方式：/story-long-analyze、/长篇拆文、「帮我拆这本书」「拆这本书」「分析黄金三章」「深度拆解」「完整拆解」「系统拆解」或提供小说文本文件路径。"
 metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudecode"}}
 ---
@@ -209,9 +209,9 @@ Stage 4/5 必须在事实层冻结后运行；不得把机制判断反写进 Sta
 
 ## 质量检查概要
 
-Stage 3 事实层完成前需通过质量检查（置信度、覆盖率、重叠率）。阈值、计算方式与自检清单的唯一权威定义见 [material-decomposition.md 质量阈值体系](references/material-decomposition.md)。
+Stage 3 事实层完成前需完成质量诊断（置信度、覆盖率、重叠率）。计算方式与异常处理见 [material-decomposition.md 质量诊断体系](references/material-decomposition.md)；统计只发现异常，不作为优化目标。
 
-**Stage 3-5 还须过「事实可溯源」自检**：设定/角色/报告里的硬事实（等级/数值/距离/属性/势力数/出场章/谁说的话）必须能 grep 回原文，原文没给的写「原文未明确」、禁推断填空。这是拆文事实错误的最大来源（强模型也会漂移，因为合成阶段离原文两跳、靠合理性填空）。详见 [material-decomposition.md 合成阶段事实保真](references/material-decomposition.md)。
+**所有派生阶段都须过双轨证据自检**：等级、数值、属性、出场章等硬事实必须能回查原文；Reader Contract、期待债、Skill 候选等机制判断必须指向 Stage 2/3 的章节、情节点或剧情单元证据。硬事实无来源写「原文未明确」，机制无定位写「待验证」，禁止用合理性填空。详见 [material-decomposition.md 所有派生阶段的证据保真](references/material-decomposition.md)。
 
 ---
 

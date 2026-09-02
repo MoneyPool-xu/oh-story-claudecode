@@ -51,7 +51,31 @@
 - `有效但高风险.md`：Effective But Risky，写明短期收益、长期成本、适用与禁用场景。
 - `反模式.md`：Problem / Anti-pattern，写明读者成本、结构原因与规避规则。
 
-每条规则必须包含：名称、原始观察、抽象规则、作用机制、适用范围、证据书目、证据等级、失败模式、使用边界，以及 `writer_visibility` / `planner_visibility` / `reviewer_visibility`。不要让 Writer 持有只适合规划或审查的元规则。
+每条规则必须包含：名称、原始观察、抽象规则、作用机制、适用范围、证据书目、`evidence_refs`、证据等级、`counterexample`、`failure_condition`、失败模式、使用边界，以及 `writer_visibility` / `planner_visibility` / `reviewer_visibility`。不要让 Writer 持有只适合规划或审查的元规则。
+
+```yaml
+skill_candidate:
+  name:
+  source_observation:
+  abstract_rule:
+  mechanism:
+  scope:
+  evidence_books: []
+  evidence_refs:
+    - 第12章/P4
+    - 第18章/P7
+    - 剧情单元：宗门试炼
+  evidence_level: L1
+  counterexample: []
+  failure_condition: []
+  failure_mode:
+  boundary:
+  writer_visibility:
+  planner_visibility:
+  reviewer_visibility:
+```
+
+`counterexample` 记录不符合该规律仍然有效的样本，用来限制过度概括；`failure_condition` 记录该机制在什么条件下失效。`evidence_refs` 必须指向可重新定位的章节/情节点或剧情单元，不能只写抽象印象。
 
 ### 验证等级
 
