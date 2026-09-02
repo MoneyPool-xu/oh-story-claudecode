@@ -47,6 +47,20 @@ body {
   background: var(--surface-subtle);
 }
 
+.pipeline-link {
+  color: var(--green-700);
+  background: var(--green-100);
+  border: 1px solid #cfe6d8;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.pipeline-link:hover { background: #dceee4; }
+
 button,
 input,
 textarea {

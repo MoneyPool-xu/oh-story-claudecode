@@ -39,6 +39,16 @@
       "skills": ["./skills/story-long-analyze"]
     },
     {
+      "name": "story-project-pipeline-monitor",
+      "description": "网文全流程检测。统一展示步骤状态、失效与阻塞，并读取拆文 Reader Debt 和 Skill Candidate 膨胀诊断。",
+      "source": "./",
+      "strict": false,
+      "version": "1.2.0",
+      "category": "novel-quality",
+      "keywords": ["pipeline", "dashboard", "diagnostics", "全流程", "期待债", "规则提炼", "chinese"],
+      "skills": ["./skills/story-project-pipeline-monitor"]
+    },
+    {
       "name": "story-long-write",
       "description": "长篇网文写作。从大纲到正文，辅助长篇网络小说的创作，包括世界观、人物、情节线管理。",
       "source": "./",

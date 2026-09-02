@@ -21,6 +21,7 @@ import { createHash, randomUUID } from "node:crypto";
 
 const MODULE_PATH = fileURLToPath(import.meta.url);
 const ASSET_DIR = fileURLToPath(new URL("../assets/", import.meta.url));
+const PIPELINE_SKILL_DIR = fileURLToPath(new URL("../../story-project-pipeline-monitor/", import.meta.url));
 const EDITABLE_EXTENSIONS = new Set([".md", ".txt", ".json", ".yaml", ".yml", ".toml"]);
 const LONG_PROJECT_DIRECTORY_MARKERS = new Set(["正文", "大纲", "设定", "追踪"]);
 const SHORT_PROJECT_BODY_FILE = "正文.md";
@@ -726,13 +727,53 @@ async function deleteWorkspaceFile(root, payload) {
   });
 }
 
+async function pipelineStatus(workspaceRoot, requestedProject) {
+  const project = resolve(requestedProject || workspaceRoot);
+  if (!isPathInside(project, workspaceRoot)) {
+    throw new DashboardError(403, "invalid_project", "项目目录必须位于当前工作区内");
+  }
+  const script = resolve(PIPELINE_SKILL_DIR, "scripts/pipeline_monitor.py");
+  const scriptInfo = await lstat(script).catch(() => null);
+  if (!scriptInfo?.isFile()) {
+    throw new DashboardError(503, "pipeline_monitor_missing", "当前 OH STORY 安装缺少全流程监测组件");
+  }
+  return new Promise((accept, reject) => {
+    const child = spawn("python3", [script, "status", "--workspace", workspaceRoot, "--project", project], {
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+    let output = "";
+    let errorOutput = "";
+    child.stdout.on("data", (chunk) => { output += chunk; });
+    child.stderr.on("data", (chunk) => { errorOutput += chunk; });
+    child.on("error", () => reject(new DashboardError(500, "pipeline_monitor_failed", "无法启动全流程监测")));
+    child.on("close", (code) => {
+      if (code !== 0) {
+        reject(new DashboardError(500, "pipeline_monitor_failed", errorOutput.trim() || "全流程扫描失败"));
+        return;
+      }
+      try {
+        accept(JSON.parse(output));
+      } catch {
+        reject(new DashboardError(500, "pipeline_monitor_invalid", "全流程扫描返回了无效数据"));
+      }
+    });
+  });
+}
+
 async function serveStaticFile(requestPath, response) {
   const assetName = requestPath === "/" ? "index.html" : requestPath.slice(1);
-  if (!["index.html", "styles.css", "app.js"].includes(assetName)) {
+  const pipelineAssets = {
+    "pipeline.html": "index.html",
+    "pipeline.css": "styles.css",
+    "pipeline.js": "app.js",
+  };
+  if (!["index.html", "styles.css", "app.js", ...Object.keys(pipelineAssets)].includes(assetName)) {
     sendJson(response, 404, { error: { code: "not_found", message: "页面不存在" } });
     return;
   }
-  const assetPath = resolve(ASSET_DIR, assetName);
+  const assetPath = pipelineAssets[assetName]
+    ? resolve(PIPELINE_SKILL_DIR, "assets", pipelineAssets[assetName])
+    : resolve(ASSET_DIR, assetName);
   const body = await readFile(assetPath);
   response.writeHead(200, responseHeaders(CONTENT_TYPES[extname(assetName)] || "application/octet-stream"));
   response.end(body);
@@ -781,6 +822,25 @@ export function createDashboardServer({ root, allowNetwork = false }) {
       }
       if (request.method === "GET" && url.pathname === "/api/workspace") {
         sendJson(response, 200, await scanWorkspace(workspaceRoot));
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/pipeline/projects") {
+        const workspace = await scanWorkspace(workspaceRoot);
+        sendJson(response, 200, {
+          projects: [...workspace.projects, ...workspace.libraries]
+            .filter((project) => !project.path.split(/[\\/]/).includes("outputs"))
+            .map((project) => ({
+              name: project.name,
+              path: resolve(workspaceRoot, project.path),
+              kind: project.path.split(/[\\/]/).some((part) => ["拆文库", "对标"].includes(part))
+                ? "analysis"
+                : "writing",
+            })),
+        });
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/pipeline/status") {
+        sendJson(response, 200, await pipelineStatus(workspaceRoot, url.searchParams.get("project") || workspaceRoot));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/tree") {

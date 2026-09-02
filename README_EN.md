@@ -142,6 +142,7 @@ After updating, if a project has already run `/story-setup`, re-run `/story-setu
 |:------|:--------|:------------|
 | `story-setup` | `/story-setup` / `$story-setup` | Environment setup — Claude/Antigravity/OpenCode/Codex/ZCode/OpenClaw/Reasonix plus generic (safe merge) |
 | `story` | `/story` / `$story` / `/story dashboard` | Toolbox router, author-preference management, and local deconstruction/project dashboard |
+| `story-project-pipeline-monitor` | `/story dashboard` / `/全流程监测` | End-to-end workflow status plus reader-debt and Skill-candidate inflation diagnostics |
 | `story-long-write` | `/story-long-write` | Long-form writing — outline building, character design, prose output |
 | `story-long-analyze` | `/story-long-analyze` | Long-form deconstruction — Golden First 3 Chapters, payoff design, pacing analysis |
 | `story-long-scan` | `/story-long-scan` | Long-form trend scan — Qidian/Fanqie/Jinjiang market trends |

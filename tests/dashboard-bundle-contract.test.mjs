@@ -29,4 +29,16 @@ test("Claude Code marketplace exposes the canonical story skill bundle", async (
     const bundled = await stat(join(storySkillRoot, relativePath));
     assert.ok(bundled.isFile(), `${relativePath} must ship inside the canonical story skill`);
   }
+
+  for (const relativePath of [
+    "SKILL.md",
+    "VERSION",
+    "scripts/pipeline_monitor.py",
+    "assets/index.html",
+    "assets/styles.css",
+    "assets/app.js",
+  ]) {
+    const bundled = await stat(join(repositoryRoot, "skills", "story-project-pipeline-monitor", relativePath));
+    assert.ok(bundled.isFile(), `${relativePath} must ship inside the pipeline monitor skill`);
+  }
 });

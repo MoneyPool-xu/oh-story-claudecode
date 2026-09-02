@@ -23,6 +23,11 @@ story-long-analyze 拆解管道的运维工具文档：`_progress.md` 模板、�
 | 块 | 章节 | 状态 |
 ## 机制与提炼进度
 | 阶段 | 产物 | 输入来源 | 状态 |
+## Narrative Diagnostics
+### Reader Debt Inflation
+- 活跃债 / 弱证据债 / 无具体等待问题 / 沉睡债 / 状态：{读取 `_diagnostics.json.reader_debt.summary`}
+### Skill Candidate Inflation
+- L1/L2/L3 / 证据覆盖 / 边界完整 / 可迁移率 / 近义重复率 / 状态：{读取 `_diagnostics.json.skill_candidates.summary`}
 ## 失败记录
 | 类型 | 章节/阶段 | 错误信息 | 重试状态 |
 |------|----------|---------|---------|

@@ -97,3 +97,48 @@ skill_candidate:
 2. `发生了什么`、`为什么有效`、`是否可迁移`分别落在事实层、机制层、归纳层。
 3. 所有发现必须进入五类之一，不允许含混地写成「可借鉴」。
 4. 总报告必须同时呈现有效机制、有效但有代价、作者特征和明显问题，禁止吹书式总结。
+
+## `_diagnostics.json` 明细契约
+
+Stage 4/5 不直接填写百分比或诊断等级，只写逐项证据，由 `scripts/narrative_diagnostics.py` 统一计算：
+
+```json
+{
+  "schema_version": 1,
+  "book": "书名",
+  "single_book": true,
+  "model": "实际执行模型；未知则写 unknown",
+  "reader_debt": {
+    "story_units": 12,
+    "debts": [
+      {
+        "id": "ED-001",
+        "created_ref": "第12章/P4",
+        "reader_waiting_for": "主角何时公开真实身份？",
+        "concrete_wait": true,
+        "status": "active",
+        "last_activity_unit": "宗门试炼",
+        "current_unit": "内门大比",
+        "evidence_refs": ["第12章/P4", "剧情单元：宗门试炼"]
+      }
+    ]
+  },
+  "skill_candidates": {
+    "candidates": [
+      {
+        "id": "SC-001",
+        "evidence_level": "L1",
+        "evidence_refs": ["第12章/P4"],
+        "boundary": "适用边界",
+        "counterexample": "表面相似但机制不成立的反例",
+        "failure_condition": ["失效条件"],
+        "portable": true,
+        "transformed_example": "换人物、地点和题材后的成立示例",
+        "merged_into": null
+      }
+    ]
+  }
+}
+```
+
+债务 `status` 取 `active / dormant / paid / transformed`。普通伏笔不能因“未来可能有用”登记为债；`reader_waiting_for` 必须能写成一个具体问题。近义候选保留原始 ID，但用 `merged_into` 指向归并后的规则，保证审计可追溯。

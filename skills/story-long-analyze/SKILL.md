@@ -1,6 +1,6 @@
 ---
 name: story-long-analyze
-version: 1.1.2
+version: 1.2.0
 description: "长篇网文拆文。单一管道依次完成事实素材提取、读者动力机制解释、Skill 候选提炼与跨书验证；黄金三章后可停靠，确认后自动续跑，不要求用户另行调用机制分析。触发方式：/story-long-analyze、/长篇拆文、「帮我拆这本书」「拆这本书」「分析黄金三章」「深度拆解」「完整拆解」「系统拆解」或提供小说文本文件路径。"
 metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudecode"}}
 ---
@@ -111,6 +111,7 @@ metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudec
 │   └── 反模式.md
 ├── 拆文报告.md
 ├── 文风.md          # Stage 6 文风：句长/标点/对话潜台词/情绪交替 + 原文锚点范例片段
+├── _diagnostics.json # Stage 4/5 机器真源；Dashboard、进度与报告只读取本文件摘要
 └── _progress.md
 ```
 
@@ -132,6 +133,20 @@ metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudec
 | 4 | 读者动力机制 | Stage 2-3 派生产物 | `剧情/读者契约.md`、`期待债.md`、`情绪债.md`、`关系债.md`、`成长与升级.md`；默认不重读整本原文。 | 机制证据门通过 |
 | 5 | Skill 候选提炼 | Stage 3-4 | `提炼/` 五分类文件，含证据等级、适用边界和 Agent 可见性；单书结论只能是 Observation。 | 五分类与证据等级检查通过 |
 | 6 | 文风与总报告 | Stage 3-5 + 抽样原文 | 文风.md + 拆文报告.md + 概要.md 全书版；报告同时呈现有效机制、代价、作者特征与反模式。 | 全部终态产物落盘 |
+
+### Stage 4 Diagnostic Gate
+
+Stage 4 机制文件完成后，必须按 [narrative-mechanism-extraction.md](references/narrative-mechanism-extraction.md) 写入 `_diagnostics.json` 的逐债明细，再运行：
+
+```bash
+python3 scripts/narrative_diagnostics.py "拆文库/{书名}/_diagnostics.json"
+```
+
+把 Reader Debt Inflation 摘要同步到 `_progress.md`。诊断只用于定位弱证据、非具体等待和沉睡债；不得为了降低指标删除真实存在的债。
+
+### Stage 5 Inflation Gate
+
+Stage 5 完成候选提炼后，必须补齐 `_diagnostics.json` 的逐规则明细并再次运行同一脚本。门禁检查 `evidence_refs`、跨设定可迁移测试、边界/失效条件、语义归并和证据等级一致性。不得为了减少候选数删除证据充分的 Observation，也不得为了保留数量跳过近义归并。
 
 ### Stage 0 章节边界子步骤
 
@@ -329,6 +344,7 @@ Stage 3-5 分块见 [material-decomposition.md](references/material-decompositio
 | [references/output-templates.md](references/output-templates.md) | 管道全程：各 Stage 输出模板 + 快速预览报告模板 + `剧情/节奏.md` / `剧情/情绪模块.md` 模板 + 通用速查表 |
 | [references/material-decomposition.md](references/material-decomposition.md) | Stage 2-5：素材拆解方法论 + 质量阈值 + 分块策略；Stage 6 另见文风资料 |
 | [references/narrative-mechanism-extraction.md](references/narrative-mechanism-extraction.md) | Stage 4-5：读者契约、各类债、代理权、兑现结构、五级规则分类与跨书验证 |
+| [scripts/narrative_diagnostics.py](scripts/narrative_diagnostics.py) | Stage 4-5：从逐项证据计算债务健康与规则通胀诊断，更新 `_diagnostics.json` |
 | [references/pipeline-ops.md](references/pipeline-ops.md) | 管道运维：_progress.md 模板、错误处理、恢复机制操作步骤 |
 | [references/deconstruction-notes.md](references/deconstruction-notes.md) | 拆书方法+影视拆解+抽象拆解法+题材实战 |
 | [references/style-profile-protocol.md](references/style-profile-protocol.md) | Stage 6：文风模板 + 可信度/可用性说明 |

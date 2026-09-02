@@ -45,6 +45,16 @@ async function createWorkspace() {
   });
   await mkdir(resolve(root, "拆文库", "盘龙", ".omc", "state"), { recursive: true });
   await writeFile(resolve(root, "拆文库", "盘龙", "拆文报告.md"), "# 盘龙\n", "utf8");
+  await writeFile(
+    resolve(root, "拆文库", "盘龙", "_diagnostics.json"),
+    JSON.stringify({
+      schema_version: 1,
+      book: "盘龙",
+      reader_debt: { summary: { diagnosis: "warning", active: 3, unsupported: 1 } },
+      skill_candidates: { summary: { diagnosis: "normal", raw_count: 4, merged_count: 3 } },
+    }),
+    "utf8",
+  );
   await writeFile(resolve(root, "拆文库", "盘龙", "章节", "第1章.md"), "第一章", "utf8");
   await writeFile(resolve(root, "长篇", "示例书", "大纲", "总纲.md"), "# 总纲\n", "utf8");
   await writeFile(resolve(root, "长篇", "示例书", "正文", "第001章.md"), "初稿", "utf8");
@@ -238,7 +248,7 @@ describe("workspace scanning", () => {
     const libraryPage = await listWorkspaceDirectory(root, "拆文库/盘龙");
     assert.deepEqual(
       libraryPage.entries.map((entry) => entry.name),
-      ["章节", "拆文报告.md"],
+      ["章节", "_diagnostics.json", "拆文报告.md"],
     );
     assert.doesNotMatch(JSON.stringify(libraryPage), /\.omc|secrets\.json/);
   });
@@ -422,6 +432,27 @@ describe("CLI portability", () => {
 });
 
 describe("HTTP API", () => {
+  test("serves the bundled pipeline dashboard and Stage 4/5 diagnostics", async () => {
+    const root = await createWorkspace();
+    const baseUrl = await startServer(root);
+
+    const page = await fetch(`${baseUrl}/pipeline.html`);
+    assert.equal(page.status, 200);
+    assert.match(await page.text(), /拆文膨胀诊断/);
+
+    const projects = await fetch(`${baseUrl}/api/pipeline/projects`).then((response) => response.json());
+    const analysis = projects.projects.find((project) => project.name === "盘龙");
+    assert.equal(analysis.kind, "analysis");
+
+    const status = await fetch(
+      `${baseUrl}/api/pipeline/status?project=${encodeURIComponent(analysis.path)}`,
+    ).then((response) => response.json());
+    assert.equal(status.diagnostics[0].reader_debt.diagnosis, "warning");
+    assert.equal(status.diagnostics[0].skill_candidates.merged_count, 3);
+    const benchmark = status.steps.find((step) => step.id === "benchmark-analysis");
+    assert.deepEqual(benchmark.quality_diagnostics.map((item) => item.stage), [4, 5]);
+  });
+
   test("serves lazy roots, directory pages, and on-demand search", async () => {
     const root = await createWorkspace();
     const baseUrl = await startServer(root);

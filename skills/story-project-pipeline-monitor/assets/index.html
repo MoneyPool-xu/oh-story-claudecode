@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>网文全流程监测</title>
+  <meta name="description" content="从新立项到投稿的网文项目流程状态看板">
+  <link rel="stylesheet" href="/pipeline.css">
+</head>
+<body>
+  <main>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">STORY PIPELINE · LOCAL</p>
+        <h1>从立项到投稿，<br><span>每一步都有证据。</span></h1>
+        <p class="sub">统一查看 OH STORY 全流程状态，并直接发现期待债与候选规则是否虚高。</p>
+      </div>
+      <div class="controls">
+        <label for="project">当前项目</label>
+        <select id="project"></select>
+        <button id="refresh">刷新状态</button>
+        <p id="updated">正在读取…</p>
+      </div>
+    </header>
+
+    <section class="summary" aria-label="进度摘要">
+      <div class="progress-card">
+        <div class="ring" id="ring"><strong id="percent">0%</strong></div>
+        <div><span>必需流程进度</span><h2 id="count">0 / 0</h2></div>
+      </div>
+      <div class="metric"><span>当前阶段</span><strong id="phase">—</strong></div>
+      <div class="metric danger"><span>已失效</span><strong id="stale">0</strong></div>
+      <div class="metric warn"><span>被阻塞</span><strong id="blocked">0</strong></div>
+    </section>
+
+    <section class="next" id="next-card">
+      <span>现在唯一优先动作</span>
+      <h2 id="next-title">读取中</h2>
+      <p id="next-reason"></p>
+    </section>
+
+    <section class="toolbar">
+      <div id="filters" class="filters"></div>
+      <label class="search"><span>搜索</span><input id="search" placeholder="步骤、skill、证据"></label>
+    </section>
+
+    <section id="pipeline" class="pipeline" aria-live="polite"></section>
+
+    <section class="diagnostics">
+      <div class="section-head"><div><p class="eyebrow">NARRATIVE DIAGNOSTICS</p><h2>拆文膨胀诊断</h2></div></div>
+      <div id="diagnostics" class="diagnostic-grid"></div>
+    </section>
+
+    <section class="sources">
+      <div class="section-head"><div><p class="eyebrow">SOURCE OF TRUTH</p><h2>技能来源与版本</h2></div><button id="toggle-sources">展开</button></div>
+      <div id="skills" class="skills hidden"></div>
+    </section>
+  </main>
+  <script src="/pipeline.js"></script>
+</body>
+</html>
