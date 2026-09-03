@@ -159,6 +159,13 @@ case "$BASE" in
         printf '%s\n' "   如确需先起草，请先补建对应细纲文件。" >&2
         exit 2
       fi
+      if node -e "" >/dev/null 2>&1 && [ -f "$CLI" ]; then
+        VALUE_GATE="$(node "$CLI" chapter-commercial-gate "$BOOK_DIR" "$NUM" "$FOUND" 2>/dev/null || true)"
+        if [ -n "$VALUE_GATE" ]; then
+          printf '%s\n' "⛔ 写正文被拦截：${VALUE_GATE}" >&2
+          exit 2
+        fi
+      fi
     fi
     # 追踪检查点门：state 缺失 / schema 不是 4 / 续写状态卡修订与 state 不一致 / 首建新章
     # 时上一章事务未提交，都拦下。判定走共享核（story_hook_cli.js tracking-checkpoint），

@@ -289,6 +289,7 @@ metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudec
 | 契约/终局储备/剧情单元安全审查 | `references/reader-contract-and-progression.md` |
 | 反转设计 | `references/long-reversal.md` |
 | 细纲结构验收 | `scripts/check-outline-contract.js`（新建/补建后跑，只判字段与表结构） |
+| 七猫/无线单章商业门禁 | `references/chapter-commercial-gate.md`（语义对账生成 JSON，Hook 校验细纲版本与结论） |
 
 ### Phase 4：正文写作
 

@@ -150,6 +150,14 @@ if (command === "extract-target") {
   } catch {
     process.exit(0)
   }
+} else if (command === "chapter-commercial-gate") {
+  const [book, chapterRaw, outline] = args
+  try {
+    const issue = core.chapterCommercialGateIssue(book, Number(chapterRaw), outline)
+    if (issue) process.stdout.write(issue)
+  } catch {
+    process.exit(0)
+  }
 } else if (command === "is-git-commit") {
   // git commit 侦测。命令优先取 STORY_COMMIT_COMMAND，缺省再从 HOOK_INPUT 挖 command/cmd/script。
   // 用共享核 isGitCommitCommand（js 分词语义，与 OpenCode/ZCode 一致；对「引号内分隔符」这类

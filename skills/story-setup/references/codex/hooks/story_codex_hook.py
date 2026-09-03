@@ -7,6 +7,7 @@ story guardrails to Codex hook stdin/stdout JSON contracts.
 from __future__ import annotations
 
 import json
+import hashlib
 import os
 import re
 import shlex
@@ -1222,12 +1223,14 @@ def prose_block_reason(root: Path, abs_path: Path) -> str | None:
     exists = abs_path.exists()
     outline_dir = book_dir / "大纲"
     found = False
+    outline_file = None
     if not exists:
         if outline_dir.is_dir():
             for candidate in outline_dir.iterdir():
                 fm = re.match(r"^细纲_第0*(\d+)章.*\.md$", candidate.name)
                 if fm and fm.group(1) == num:
                     found = True
+                    outline_file = candidate
                     break
         if not found:
             return f"⛔ 写正文被拦截：第 {num} 章缺少细纲（{safe_rel(root, outline_dir)}/细纲_第{num}章.md）。先按 story-long-write 单章流程补建细纲再写正文。"
@@ -1240,6 +1243,9 @@ def prose_block_reason(root: Path, abs_path: Path) -> str | None:
         return f"⛔ 写正文被拦截：{safe_rel(root, book_dir)} 的{checkpoint_issue}。"
     if exists:
         return None
+    commercial_issue = chapter_commercial_gate_issue(book_dir, int(num), outline_file)
+    if commercial_issue:
+        return f"⛔ 写正文被拦截：{commercial_issue}"
     # 欠账门（无状态）：写第 N 章（首建）前，上一章有未清毒句式且未标「去味:跳过」豁免时先清再写。
     # 判据现算自上一章文件本身，不落任何状态文件；找不到上一章/读取失败一律放行（宁可漏拦不可误伤）。
     # js↔py 文案由 check-hook-regex-sync.sh 锁同步，判定由 test-prose-net-parity.sh Part E 锁 parity。
@@ -1278,6 +1284,37 @@ def prose_block_reason(root: Path, abs_path: Path) -> str | None:
                     if more > 0:
                         reason += f"\n（另有 {more} 处，完整扫描：node <skill>/scripts/check-ai-patterns.js --check 上一章文件）"
                     return reason
+    return None
+
+
+def chapter_commercial_gate_issue(book_dir: Path, chapter: int, outline_file: Path | None) -> str | None:
+    if outline_file is None:
+        return None
+    try:
+        outline = outline_file.read_text(encoding="utf-8")
+    except OSError:
+        return None
+    if not re.search(r"商业价值门禁\s*[：:]\s*(?:启用|是|yes|on)", outline, re.I):
+        return None
+    gate = book_dir / "audit_logs" / f"chapter_{chapter}_gate.json"
+    if not gate.exists():
+        return f"第 {chapter} 章已启用商业价值门禁，但缺少 audit_logs/chapter_{chapter}_gate.json；先完成六维语义对账。"
+    try:
+        doc = json.loads(gate.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return f"第 {chapter} 章商业价值门禁 JSON 无法解析；重新生成，不要手工放行。"
+    digest = hashlib.sha256(outline.encode("utf-8")).hexdigest()
+    if doc.get("schema_version") != 1 or doc.get("chapter") != chapter or doc.get("outline_sha256") != digest:
+        return f"第 {chapter} 章商业价值门禁与当前细纲版本不一致；细纲改动后必须重新对账。"
+    dims = doc.get("dimensions") if isinstance(doc.get("dimensions"), dict) else {}
+    required = ["state_change", "visible_gain_or_payment", "next_question", "protagonist_action"]
+    missing = [key for key in required if not isinstance(dims.get(key), dict) or dims[key].get("status") != "present" or not str(dims[key].get("evidence") or "").strip()]
+    if isinstance(dims.get("next_question"), dict) and dims["next_question"].get("concrete") is not True and "next_question" not in missing:
+        missing.append("next_question")
+    blockers = doc.get("blockers") if isinstance(doc.get("blockers"), list) else None
+    if doc.get("decision") != "PASS" or blockers is None or blockers or missing:
+        detail = f"缺少：{'、'.join(missing)}" if missing else "；".join(str(x) for x in (blockers or [])) or "decision 不是 PASS"
+        return f"第 {chapter} 章商业价值门禁未通过（{detail}）；先修细纲再写正文。"
     return None
 
 

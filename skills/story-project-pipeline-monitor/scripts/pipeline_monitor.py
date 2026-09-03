@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -123,6 +124,27 @@ def matches(project: Path, patterns):
             and p.suffix.lower() not in {".zip", ".rar", ".7z"}
         )
     return sorted(set(found), key=lambda p: p.stat().st_mtime, reverse=True)
+
+
+def chapter_commercial_gates(project: Path):
+    rows = []
+    for gate in sorted((project / "audit_logs").glob("chapter_*_gate.json")):
+        try:
+            doc = json.loads(gate.read_text(encoding="utf-8"))
+            chapter = int(doc.get("chapter"))
+            outline = project / doc.get("outline_path", "")
+            current_hash = hashlib.sha256(outline.read_bytes()).hexdigest() if outline.is_file() else None
+            blockers = doc.get("blockers") if isinstance(doc.get("blockers"), list) else []
+            status = "PASS" if doc.get("decision") == "PASS" and not blockers else "BLOCK"
+            if not current_hash or current_hash != doc.get("outline_sha256"):
+                status = "STALE"
+            dims = doc.get("dimensions") if isinstance(doc.get("dimensions"), dict) else {}
+            rows.append({"chapter": chapter, "title": doc.get("title", ""), "chapter_type": doc.get("chapter_type", ""),
+                         "status": status, "blockers": blockers, "dimensions": dims,
+                         "path": str(gate.relative_to(project))})
+        except (OSError, ValueError, TypeError, json.JSONDecodeError) as exc:
+            rows.append({"chapter": None, "title": gate.stem, "status": "INVALID", "blockers": [str(exc)], "dimensions": {}, "path": str(gate.relative_to(project))})
+    return rows
 
 
 def find_setup_marker(project: Path, workspace: Path):
@@ -341,6 +363,7 @@ def scan(workspace: Path, project: Path, repo_root: Path):
                     "stale": len(stale), "blocked": len(blocked), "active_phase": active_phase,
                     "next": next_row},
         "steps": rows, "skills": inventory(repo_root), "diagnostics": diagnostics,
+        "chapter_commercial_gates": chapter_commercial_gates(project),
     }
 
 

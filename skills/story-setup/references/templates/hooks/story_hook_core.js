@@ -3,6 +3,7 @@
 const fs = require("node:fs")
 const path = require("node:path")
 const { spawnSync } = require("node:child_process")
+const crypto = require("node:crypto")
 
 function existingDir(value) {
   if (typeof value !== "string" || !value.trim()) return null
@@ -658,10 +659,12 @@ function proseBlockReason(root, absolute) {
   const exists = fs.existsSync(absolute)
   const outlineDir = path.join(book, "大纲")
   let found = false
+  let outlineFile = null
   if (!exists) {
     try {
       found = fs.readdirSync(outlineDir).some((file) => {
         const candidate = file.match(/^细纲_第0*(\d+)章.*\.md$/)
+        if (candidate && candidate[1] === chapter) outlineFile = path.join(outlineDir, file)
         return candidate && candidate[1] === chapter
       })
     } catch {}
@@ -674,6 +677,8 @@ function proseBlockReason(root, absolute) {
     return `⛔ 写正文被拦截：${safeRelative(root, book)} 的${checkpointIssue}。`
   }
   if (exists) return null
+  const commercialIssue = chapterCommercialGateIssue(book, Number(chapter), outlineFile)
+  if (commercialIssue) return `⛔ 写正文被拦截：${commercialIssue}`
   // 欠账门（无状态）：写第 N 章（首建）前，上一章有未清毒句式且未标「去味:跳过」豁免时先清再写。
   // 判据现算自上一章文件本身，不落任何状态文件；找不到上一章/读取失败一律放行（宁可漏拦不可误伤）。
   // js↔py 文案由 check-hook-regex-sync.sh 锁同步，判定由 test-prose-net-parity.sh Part E 锁 parity。
@@ -707,6 +712,25 @@ function proseBlockReason(root, absolute) {
       }
     }
   }
+  return null
+}
+
+function chapterCommercialGateIssue(book, chapter, outlineFile = null) {
+  if (!outlineFile) return null
+  let outline
+  try { outline = fs.readFileSync(outlineFile, "utf8") } catch { return null }
+  if (!/商业价值门禁\s*[：:]\s*(?:启用|是|yes|on)/i.test(outline)) return null
+  const gate = path.join(book, "audit_logs", `chapter_${chapter}_gate.json`)
+  if (!fs.existsSync(gate)) return `第 ${chapter} 章已启用商业价值门禁，但缺少 audit_logs/chapter_${chapter}_gate.json；先完成六维语义对账。`
+  let doc
+  try { doc = JSON.parse(fs.readFileSync(gate, "utf8")) } catch { return `第 ${chapter} 章商业价值门禁 JSON 无法解析；重新生成，不要手工放行。` }
+  const digest = crypto.createHash("sha256").update(Buffer.from(outline, "utf8")).digest("hex")
+  if (doc.schema_version !== 1 || Number(doc.chapter) !== chapter || doc.outline_sha256 !== digest) return `第 ${chapter} 章商业价值门禁与当前细纲版本不一致；细纲改动后必须重新对账。`
+  const dims = doc.dimensions && typeof doc.dimensions === "object" ? doc.dimensions : {}
+  const required = ["state_change", "visible_gain_or_payment", "next_question", "protagonist_action"]
+  const missing = required.filter((key) => !dims[key] || dims[key].status !== "present" || typeof dims[key].evidence !== "string" || !dims[key].evidence.trim())
+  if (dims.next_question && dims.next_question.concrete !== true && !missing.includes("next_question")) missing.push("next_question")
+  if (doc.decision !== "PASS" || !Array.isArray(doc.blockers) || doc.blockers.length || missing.length) return `第 ${chapter} 章商业价值门禁未通过（${missing.length ? `缺少：${missing.join("、")}` : (doc.blockers || []).join("；") || "decision 不是 PASS"}）；先修细纲再写正文。`
   return null
 }
 
@@ -1166,6 +1190,7 @@ module.exports = {
   extractProseTargets,
   extractPatchTargets,
   proseBlockReason,
+  chapterCommercialGateIssue,
   isProsePath,
   duplicateTitleFindings,
   proseAfterWrite,
