@@ -1,0 +1,9 @@
+# Public-rule review seeds; tab-separated: severity, category, regex.
+# Source checked 2026-09-03:
+# https://zhushou.qimao.com/writer-rules/68464fdfe4a81e7ec312f874/
+# https://zhushou.qimao.com/writer-rules/68466f6ae4a81e7ec312f8cd/
+# This is not a leaked/official blacklist. REVIEW matches require narrative context.
+REVIEW	违法犯罪教唆	(?:教程|步骤|配方|躲避侦查|销毁证据).{0,12}(?:制毒|诈骗|洗钱|爆炸物|入侵)
+REVIEW	淫秽色情	(?:未成年|幼女|幼童).{0,12}(?:性行为|裸照|成人视频)
+REVIEW	赌博导流	(?:下注|博彩|赌场).{0,12}(?:链接|二维码|客服|充值)
+REVIEW	侵权冒用	(?:全文搬运|原文照搬|未经授权转载)

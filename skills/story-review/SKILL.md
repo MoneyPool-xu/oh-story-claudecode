@@ -93,6 +93,9 @@ Rubric Source: file | embedded fallback
 | 审查禁用词 | `story-review/references/banned-words.md` |
 | 平台 rubric | `story-review/references/rubrics/{fanqie,qidian,zhihu}.md` |
 | 七猫签约风险 | `story-review/references/platforms/qimao-signing-review.md`（仅目标平台为七猫） |
+| 七猫公开规则信号 | `story-review/references/platforms/qimao-compliance-signals.txt`（仅生成语境复核候选） |
+| 七猫信号扫描脚本 | `story-review/scripts/qimao_compliance_lint.py` |
+| 编辑退稿反馈闭环 | `story-review/references/editor-feedback-loop.md` |
 | 标点预检脚本 | `story-review/scripts/normalize-punctuation.js` |
 | AI句式预检脚本 | `story-review/scripts/check-ai-patterns.js` |
 | 作者习惯协议 | `story-review/references/author-memory.md` |
@@ -185,6 +188,11 @@ full/lean 模式下，主会话必须把“审查基准包摘要”直接写进�
    - `check-degeneration.js` 报告模型退化（逐字复读/截断/占位符/工程词泄漏），每条带 `severity: blocking|advisory`：blocking（复读/截断/tier1 工程词）作为 S1/S2 `prose` findings，修复建议是「重新生成该段，不是改写」；advisory（tier2 章节/歧义词）作为 S4。
    - 这三个预检脚本只读；`story-review` **不修改正文、设定或大纲文件**，需要自动修复正文时建议转 `/story-deslop`。full / lean 模式只有下方「追踪文件维护」允许修改 `追踪/`；分批审查的所有模式都可按上方契约写 **.story-review/state.md**，solo 除该状态外不写项目内容。
    - 默认 `--quote-mode keep`，不把知乎盐言短篇的 `「」` 当作问题；只有项目明确指定引号风格时才检查对应转换建议。
+   - 目标平台为七猫时追加运行 `python3 scripts/qimao_compliance_lint.py <正文文件>`；所有命中仅进入 `platform` 候选，语境复核成立后才能给严重度。存在明确对标来源时再调用 `story-originality-audit`，不在本 skill 内复制查重逻辑。
+
+### 编辑退稿输入
+
+用户提供编辑原话、拒签截图转写或渠道驳回理由时，先读取 `references/editor-feedback-loop.md`。保存原始反馈并针对被投版本复现后，才把成立项加入审查基准包；一次反馈只生成本书规则或平台规律候选，绝不自动改仓库 Skill、作者记忆或所有新书的 rubric。
 
 **story-explorer 预查询（可选）**。仅当 `Effective Mode` 仍为 `full`/`lean`、当前允许 spawn 且当前运行时的 Agent 工具可用时，才可在对应 canonical agent 目录下确认 `story-explorer` 已部署并 spawn；Antigravity 检查 `.agents/agents/story-explorer/agent.md`，用 `invoke_subagent` + `TypeName: "story-explorer"`。`solo` 或子代理递归保护场景下不得 spawn，只能直接读取/检索。Prompt 示例：
 

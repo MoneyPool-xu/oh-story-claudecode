@@ -41,6 +41,7 @@ STEPS = [
     ("submission-package", "投稿包汇总", "投稿", "story-project-pipeline-monitor", ["title-synopsis", "proofreading", "cover"]),
     ("final-gate", "投稿前总门禁", "投稿", "story-project-pipeline-monitor", ["review", "deslop", "proofreading", "cold-read", "submission-package"]),
     ("submitted", "投稿与回执记录", "投稿", "人工记录", ["final-gate"]),
+    ("editor-feedback", "编辑退稿反馈复盘", "反馈", "story-review 反馈闭环", ["submitted"]),
 ]
 
 PATTERNS = {
@@ -70,6 +71,7 @@ PATTERNS = {
     "cover": ["封面/*.png", "封面/*.jpg", "封面/*.webp", "*封面*.png", "*封面*.jpg"],
     "submission-package": ["投稿/**/*", "*投稿包*.md", "*投稿材料*.md"],
     "submitted": ["投稿/*回执*", "投稿/*记录*", "*投稿回执*", "*投稿记录*"],
+    "editor-feedback": ["反馈/编辑退稿/*.md", "反馈/_feedback-state.json", "反馈/项目规则.md"],
 }
 
 GATE_IDS = {"chapter-directive", "tracking", "review", "deslop", "proofreading", "cold-read", "originality", "compliance", "final-gate"}
@@ -102,6 +104,7 @@ NEXT_ACTIONS = {
     "submission-package": "汇总书名、简介、封面、标签和投稿正文。",
     "final-gate": "清零全部必需步骤的 BLOCKED/STALE/OPEN。",
     "submitted": "记录平台、投稿时间、版本和回执。",
+    "editor-feedback": "保留编辑原话并在被投版本复现；只生成项目规则或带证据的平台候选。",
 }
 
 
@@ -232,7 +235,7 @@ def scan(workspace: Path, project: Path, repo_root: Path):
             reason = f"发现部署标记（target_cli: {target.group(1)}）" if target else "发现部署标记"
         elif evidence_files:
             status, reason = "COMPLETED", "发现对应产物或报告"
-        elif step_id in {"market-scan", "benchmark-analysis", "originality", "compliance", "source-inventory"}:
+        elif step_id in {"market-scan", "benchmark-analysis", "originality", "compliance", "source-inventory", "editor-feedback"}:
             status, reason = "CONDITIONAL", "需按平台、对标来源或发布阶段决定"
 
         if step_id == "originality" and matches(project, PATTERNS["benchmark-analysis"]) and not evidence_files:
@@ -304,7 +307,7 @@ def scan(workspace: Path, project: Path, repo_root: Path):
                      "status": status, "reason": reason, "evidence": evidence,
                      "next_action": NEXT_ACTIONS[step_id] if status not in {"COMPLETED", "SKIPPED"} else "保持证据；输入变化时按失效规则重跑。"})
 
-    required_ids = {x[0] for x in STEPS} - {"market-scan", "benchmark-analysis", "originality", "compliance", "source-inventory", "submitted"}
+    required_ids = {x[0] for x in STEPS} - {"market-scan", "benchmark-analysis", "originality", "compliance", "source-inventory", "submitted", "editor-feedback"}
     if matches(project, PATTERNS["benchmark-analysis"]):
         required_ids.add("originality")
         required_ids.add("source-inventory")  # 用了对标就必须先登记来源，写前生效

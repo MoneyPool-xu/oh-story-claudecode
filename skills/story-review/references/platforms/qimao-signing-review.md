@@ -27,3 +27,10 @@
 ## 诊断输出
 
 七项指标分别给 `PASS / RISK / BLOCK`、正文证据和最小修复方向：Promise Visibility、Protagonist Agency、Conflict Consequence、Payoff Quality、Cognitive Load、Antagonist Credibility、Prose Friction。不要汇总成一个分数，也不要为了全绿破坏人物因果。拒审反馈中的“设定普通、开篇弱、爽点不足、情节生硬、文笔待提升”必须落到上述具体证据，不做字面式机械修复。
+
+## 合规与原创性边界
+
+- 运行 `scripts/qimao_compliance_lint.py` 扫描 `qimao-compliance-signals.txt` 只生成语境复核候选。该表依据公开规则整理，不是七猫秘密黑名单；“黑道、弄死、迷信”等普通叙事词不得因单词命中自动判违规或替换。
+- 公共规则依据以七猫作家助手现行用户协议与原创作品发布规则为准；平台可能更新，发布前应重新核对来源日期。机器命中必须结合描写目的、细节程度、人物年龄、是否宣传教唆等语境判断。
+- 存在 `对标/`、拆文原文、改编源或同人原作时，必须调用 `story-originality-audit`，复用其 `scripts/text_overlap.py` 做已知来源候选比对。没有来源时结论为 `NEEDS-DATA`，不是“查重通过”。
+- 不使用未经证实的“低于 20% 即安全”阈值。罕见表达、专有组合、桥段顺序和角色映射即使全局比例低也可能高风险；常用短语即使数量多也不自动构成侵权。

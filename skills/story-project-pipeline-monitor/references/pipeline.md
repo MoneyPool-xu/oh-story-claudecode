@@ -41,6 +41,7 @@
 | 投稿 | submission-package | 投稿包 | 工作流编排 | 书名、简介、封面、作者信息、正文范围、标签齐全 |
 | 投稿 | final-gate | 投稿前总门禁 | 本 skill | 所有必需节点当前有效，无 BLOCKED/STALE |
 | 投稿 | submitted | 投稿与回执 | 人工记录 | 平台、时间、版本、回执/状态记录 |
+| 反馈 | editor-feedback | 编辑退稿反馈复盘 | `story-review` 反馈闭环 | 原话、被投版本、复现证据与项目级规则；无反馈时为条件项 |
 
 ## 失效传播
 
@@ -55,7 +56,7 @@
 
 必需完成：`setup`、`positioning`、`premise`、`characters`、`world`、`outline`、`golden-three`、`title-synopsis`、`prose-style`、`platform-rules`、`voiceprint`、`chapter-directive`、`drafting`、`tracking`、`review`、`deslop`、`proofreading`、`cold-read`、`cover`、`submission-package`、`final-gate`。
 
-条件完成：存在参考来源时 `originality` 与 `source-inventory` 必需；目标平台有专用门禁且准备发布时 `compliance` 必需。`submitted` 只能由实际投稿记录或用户确认完成。
+条件完成：存在参考来源时 `originality` 与 `source-inventory` 必需；目标平台有专用门禁且准备发布时 `compliance` 必需。`submitted` 只能由实际投稿记录或用户确认完成；`editor-feedback` 仅在收到真实编辑反馈时运行，单次反馈不得自动升级全局规则。
 
 ## 写前步骤不按正文时间失效
 

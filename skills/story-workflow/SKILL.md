@@ -27,7 +27,7 @@ metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudec
 4. **读者体验**：`story-reader-cold-read`。
 5. **内容质量**：`story-review` → `story-originality-audit` → `story-deslop`。
 6. **发布门禁**：`story-chinese-proofreading` → 平台专用门禁。番茄调用 `story-fanqie-compliance`；七猫调用 `story-review` 的七猫签约风险层；其他平台不得冒用番茄或七猫规则。
-7. **发布后学习**：`story-serial-performance-diagnostics` → 对应写作 skill 的修订流程。
+7. **发布后学习**：真实连载数据走 `story-serial-performance-diagnostics`；编辑退稿原话走 `story-review` 的反馈闭环；两者形成项目级修订证据，再交对应写作 skill，不直接污染全局规则。
 
 只保留实现本轮目标所需的节点。例如“终校第 20 章”通常只需校对；“番茄发布前整套检查”才需要内容审查、原创性、去AI味、终校和番茄门禁。若所需 skill 未安装，标记 `UNAVAILABLE`，使用能力表中的降级方案，不伪造调用成功。
 
