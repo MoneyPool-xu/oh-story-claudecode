@@ -14,7 +14,7 @@ metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudec
 
 > Agent 兼容性：只检查当前运行时的 canonical 目录：Claude `.claude/agents/{agent}.md`、OpenCode `.opencode/agents/{agent}.md`、Codex `.codex/agents/{agent}.toml`、Antigravity `.agents/agents/agent-name/agent.md`（`agent-name` 为目标 agent 名），不得因其他端文件存在而误判。Codex 使用同名 `agent_type`；Antigravity 使用 `invoke_subagent` + `TypeName`。对应运行时未暴露 custom-agent registry / `invoke_subagent` 或返回未知 agent 时，必须降级 solo/direct。检测到 `.zcode/` 时同样直接 solo/direct，因为 ZCode 3.3.4 不执行项目 custom agents；报告 `Fallback: project custom agents unavailable -> solo`。Claude/OpenCode 兼容面保留 `subagent_type`。
 >
-> Spawn 版本提示（不阻断 spawn）：先读取项目根 `.story-deployed` 的 `agents_version`。与本版 `agents_version: 29` 不一致时（标记缺失、字段缺失/非整数、小于或大于 29）**照常按文件存在性检查并 spawn**，同时报告 `Notice: agents bundle 版本不匹配（项目 {N}，本版 29）` 并提示重新运行 `/story-setup` 后新开会话；大于 29 时额外提示先更新 oh-story-claudecode，不要用本地旧版 setup 降级覆盖。只有 agent 文件缺失、或运行时不暴露 custom agent 时才降级 solo/direct，报告 `Fallback: ... -> solo`。
+> Spawn 版本提示（不阻断 spawn）：先读取项目根 `.story-deployed` 的 `agents_version`。与本版 `agents_version: 30` 不一致时（标记缺失、字段缺失/非整数、小于或大于 30）**照常按文件存在性检查并 spawn**，同时报告 `Notice: agents bundle 版本不匹配（项目 {N}，本版 30）` 并提示重新运行 `/story-setup` 后新开会话；大于 30 时额外提示先更新 oh-story-claudecode，不要用本地旧版 setup 降级覆盖。只有 agent 文件缺失、或运行时不暴露 custom agent 时才降级 solo/direct，报告 `Fallback: ... -> solo`。
 
 ## 拆解边界声明（主线程同样适用）
 
@@ -108,7 +108,8 @@ metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudec
 │   ├── 题材规律.md
 │   ├── 作者特征.md
 │   ├── 有效但高风险.md
-│   └── 反模式.md
+│   ├── 反模式.md
+│   └── 平台规律.md     # Stage 5 平台映射；单书只能是 Platform Observation
 ├── 拆文报告.md
 ├── 文风.md          # Stage 6 文风：句长/标点/对话潜台词/情绪交替 + 原文锚点范例片段
 ├── _diagnostics.json # Stage 4/5 机器真源；Dashboard、进度与报告只读取本文件摘要
@@ -131,7 +132,7 @@ metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudec
 | 2 | 逐章素材提取 | 分块章节文本 | 客观章节摘要、状态变化情节点、角色提及、关键信息扩写、**章节运行机制**。情节点按可识别状态变化划分，不设硬下限；删除节点若不损失风险/信息/关系/目标/资源/身份/能力/决策/行动方向或读者判断，就合并或删除。 | 摘要数等于章节数 |
 | 3 | 剧情/角色/设定聚合 | Stage 2 事实层 | 剧情单元、故事线、节奏、情绪模块、角色档案、关系、世界观与设定；3a 聚合与 3b 设定可并行，3c 角色档案、3d 关系随后串行。 | 事实层质量门通过 |
 | 4 | 读者动力机制 | Stage 2-3 派生产物 | `剧情/读者契约.md`、`期待债.md`、`情绪债.md`、`关系债.md`、`成长与升级.md`；默认不重读整本原文。 | 机制证据门通过 |
-| 5 | Skill 候选提炼 | Stage 3-4 | `提炼/` 五分类文件，含证据等级、适用边界和 Agent 可见性；单书结论只能是 Observation。 | 五分类与证据等级检查通过 |
+| 5 | Skill 候选提炼与平台映射 | Stage 3-4 | `提炼/` 五分类文件，含证据等级、适用边界和 Agent 可见性；另按 `platform-pattern-extraction.md` 生成 `平台规律.md`。单书结论只能是 Observation / Platform Observation。 | 五分类、平台分层与证据等级检查通过 |
 | 6 | 文风与总报告 | Stage 3-5 + 抽样原文 | 文风.md + 拆文报告.md + 概要.md 全书版；报告同时呈现有效机制、代价、作者特征与反模式。 | 全部终态产物落盘 |
 
 ### Stage 4 Diagnostic Gate
@@ -147,6 +148,8 @@ python3 scripts/narrative_diagnostics.py "拆文库/{书名}/_diagnostics.json"
 ### Stage 5 Inflation Gate
 
 Stage 5 完成候选提炼后，必须补齐 `_diagnostics.json` 的逐规则明细并再次运行同一脚本。门禁检查 `evidence_refs`、跨设定可迁移测试、边界/失效条件、语义归并和证据等级一致性。不得为了减少候选数删除证据充分的 Observation，也不得为了保留数量跳过近义归并。
+
+随后按 [platform-pattern-extraction.md](references/platform-pattern-extraction.md) 运行 Stage 5 的平台映射子层：只复用 Stage 3–5 产物，不重读整本原文；单书只记 Platform Observation，同平台同赛道至少 3 本不同作者才可升级 Platform Pattern，跨平台跨题材成立才可提议进入 Core Universal。平台规则只对 Planner/Reviewer 可见，Writer 仅接收编译后的短 `platform_constraints`。
 
 ### Stage 0 章节边界子步骤
 
@@ -344,6 +347,7 @@ Stage 3-5 分块见 [material-decomposition.md](references/material-decompositio
 | [references/output-templates.md](references/output-templates.md) | 管道全程：各 Stage 输出模板 + 快速预览报告模板 + `剧情/节奏.md` / `剧情/情绪模块.md` 模板 + 通用速查表 |
 | [references/material-decomposition.md](references/material-decomposition.md) | Stage 2-5：素材拆解方法论 + 质量阈值 + 分块策略；Stage 6 另见文风资料 |
 | [references/narrative-mechanism-extraction.md](references/narrative-mechanism-extraction.md) | Stage 4-5：读者契约、各类债、代理权、兑现结构、五级规则分类与跨书验证 |
+| [references/platform-pattern-extraction.md](references/platform-pattern-extraction.md) | Stage 5 平台映射：Platform Observation → Platform Pattern → Core Universal 的跨书升级 |
 | [scripts/narrative_diagnostics.py](scripts/narrative_diagnostics.py) | Stage 4-5：从逐项证据计算债务健康与规则通胀诊断，更新 `_diagnostics.json` |
 | [references/pipeline-ops.md](references/pipeline-ops.md) | 管道运维：_progress.md 模板、错误处理、恢复机制操作步骤 |
 | [references/deconstruction-notes.md](references/deconstruction-notes.md) | 拆书方法+影视拆解+抽象拆解法+题材实战 |

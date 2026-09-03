@@ -520,7 +520,7 @@ Stage 3 除剧情文件外，必须写一个轻量索引 `剧情/README.md`，�
 
 ## Stage 5 Skill 候选提炼
 
-按同一参考文件输出 `提炼/` 五个分类文件。单书结论最高只能标为 L1 Observation；只有跨作者、跨题材验证后才能升级。
+按同一参考文件输出 `提炼/` 五个分类文件。单书结论最高只能标为 L1 Observation；只有跨作者、跨题材验证后才能升级。另按 `platform-pattern-extraction.md` 输出 `提炼/平台规律.md`：记录平台、赛道、样本日期、机制、证据、反例、失效条件和当前等级；单书只能标 `Platform Observation`。
 
 ## Stage 6 汇总报告
 

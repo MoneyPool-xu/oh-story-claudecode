@@ -25,7 +25,7 @@
 | 大纲 | golden-three | 黄金三章细纲 | 写作 skill Phase 3 | 第1—3章逐章任务与钩子 |
 | 物料 | title-synopsis | 书名、简介、标签 | 写作 skill + cold-read | 发布态书名与简介；简介冷读有效 |
 | 文风 | prose-style | 项目文风与角色声纹 | `story-prose-style` | 文风规则或稳定样章分析 |
-| 写前 | platform-rules | 平台规则前置 | `story-fanqie-compliance` / `story-qimao-compliance` 写作前约束模式 | 目标平台红线已落成本书写作边界文件（`参考资料/*平台*规范*.md`） |
+| 写前 | platform-rules | 平台规则前置 | `story-fanqie-compliance` / `story-review` 七猫平台层 | 目标平台的风险边界已落成本书写作边界文件（`参考资料/*平台*规范*.md`） |
 | 写前 | voiceprint | 角色声纹卡 | `story-prose-style` | 逐角色的说话目的、句法、回避方式与禁写项（`设定/*声纹*.md`） |
 | 写前 | source-inventory | 原创性来源清单 | `story-originality-audit` 建立来源清单 | 对标、素材、真实事件与生成过程已登记（`参考资料/*来源清单*.md`）；使用对标来源时必需，否则条件项 |
 | 写前 | chapter-directive | 当前章自然成稿指令卡 | `story-natural-drafting` | 当前输入版本的完整章卡；依赖 platform-rules 与 voiceprint |

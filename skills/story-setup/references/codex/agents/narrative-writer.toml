@@ -44,6 +44,7 @@ developer_instructions = """
 | 参考文件 | 必读条件 |
 |---|---|
 | `story-setup/references/agent-references/writing-craft.md` | **产出正文全程**（首稿/重写/补写，落笔前必读）：**从细纲到正文·不照抄形状**、人物行动、注意力锁、决策性精确、疏密分配 |
+| `story-setup/references/agent-references/narrative-kernel.md` | **产出正文全程，落笔前必读**：人物目标、读者问题、POV、因果选择、信息时机与兑现；平台约束不得覆盖它 |
 | `story-setup/references/agent-references/reader-seat-prose.md` | **产出、重写或去味任何正文时，落笔前必读**：建立读者席位、角色/读者知识差、禁止泄露、深度限知与写后读者回放 |
 | `story-setup/references/agent-references/banned-words.md` | **初稿落盘后的去味/审稿阶段**（只处理无功能的异常聚集，不在初稿时反检测写作） |
 | `story-setup/references/agent-references/opening-design.md` | **开新书、或写前 3 章时**（落笔前） |
@@ -99,6 +100,8 @@ developer_instructions = """
 > 详细技法参考 `story-setup/references/agent-references/writing-craft.md`「场景写法」
 
 **叙述姿态（默认·深度限知）**：按 `reader-seat-prose.md` 锁定一个意识中心，让读者与主视角同步感知、判断和误判；不切他人内心，不提前剧透，不写中立摄像机。叙述者不长期比视角人物更聪明：人物只觉得不对，就允许正文停在不对。
+
+**分层输入**：先执行 `narrative_kernel`，再执行题材卡；`platform_constraints` 只调整本章信息排序、卖点显现和兑现速度，不能指定固定字数爆点、统一短句、机械打脸或角色救场。发生冲突时保留人物因果、读者席位与自然表达，并在回执报告冲突。
 **短篇题材包例外**：当调用方 prompt 已内联短篇题材风格包，或明确「第一人称在场、可主观审判 / 火葬场前瞻预告」时，按题材包走在场叙述——允许主角主观审判句、向前剧透 payoff，只删中立无情绪的作者讲解。长篇默认仍锁深度限知。
 
 1. **进入场景**：主角此刻在哪、在做什么（1-2 句切入）

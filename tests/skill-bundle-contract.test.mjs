@@ -40,3 +40,15 @@ test("workflow keeps the pipeline-monitor handoff", async () => {
   assert.match(workflow, /交给 `story-project-pipeline-monitor`/);
   assert.match(capabilities, /\| 全流程监测 \| `story-project-pipeline-monitor` \|/);
 });
+
+test("platform adaptation stays isolated from the universal prose kernel", async () => {
+  const kernel = await readFile(path.join(skillsRoot, "story-long-write", "references", "narrative-kernel.md"), "utf8");
+  const qimao = await readFile(path.join(skillsRoot, "story-long-write", "references", "platforms", "qimao-wireless.md"), "utf8");
+  const review = await readFile(path.join(skillsRoot, "story-review", "references", "platforms", "qimao-signing-review.md"), "utf8");
+  const extraction = await readFile(path.join(skillsRoot, "story-long-analyze", "references", "platform-pattern-extraction.md"), "utf8");
+  assert.match(kernel, /platform_constraints/);
+  assert.match(qimao, /Promise Visibility/);
+  assert.match(review, /编辑第一眼[\s\S]*阅读动力[\s\S]*正文质量/);
+  assert.match(extraction, /Platform Observation[\s\S]*Platform Pattern[\s\S]*Core Universal/);
+  assert.doesNotMatch(kernel, /800 字|1500 字|男主撑腰/);
+});

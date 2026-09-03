@@ -639,7 +639,9 @@ python3 - <<'PY'
 from pathlib import Path
 skill_names = {p.parent.name for p in Path('skills').glob('*/SKILL.md')}
 command_names = {p.stem for p in Path('skills/story-setup/references/opencode/commands').glob('*.md')}
-assert skill_names == command_names, f'missing={skill_names-command_names}, extra={command_names-skill_names}'
+assert len(skill_names) == 22, f'expected 22 skills, got {len(skill_names)}'
+assert len(command_names) == 13, f'expected 13 commands, got {len(command_names)}'
+assert command_names <= skill_names, f'commands without matching skills={command_names-skill_names}'
 for p in sorted(Path('skills/story-setup/references/opencode/commands').glob('*.md')):
     text = p.read_text()
     assert text.startswith('---\n'), f'{p}: missing frontmatter'

@@ -25,7 +25,7 @@ STEPS = [
     ("golden-three", "黄金三章细纲", "大纲", "story-long-write", ["outline"]),
     ("title-synopsis", "书名、简介与标签", "物料", "story-reader-cold-read + proofreading", ["positioning"]),
     ("prose-style", "项目文风与角色声纹校准", "文风", "story-prose-style", ["characters"]),
-    ("platform-rules", "平台规则前置", "写前", "story-fanqie-compliance / story-qimao-compliance（写作前约束）", ["positioning"]),
+    ("platform-rules", "平台规则前置", "写前", "story-fanqie-compliance / story-review 七猫平台层（写作前约束）", ["positioning"]),
     ("voiceprint", "角色声纹卡", "写前", "story-prose-style", ["characters", "prose-style"]),
     ("source-inventory", "原创性来源清单", "写前", "story-originality-audit（建立来源清单）", ["benchmark-analysis"]),
     ("chapter-directive", "自然成稿指令卡", "写前", "story-natural-drafting", ["outline", "prose-style", "platform-rules", "voiceprint"]),

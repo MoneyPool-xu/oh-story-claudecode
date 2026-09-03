@@ -21,6 +21,11 @@
       ]
     },
     {
+      "name": "narrative-kernel",
+      "source": "skills/story-long-write/references/narrative-kernel.md",
+      "targets": ["skills/story-setup/references/agent-references/narrative-kernel.md"]
+    },
+    {
       "name": "author-memory-reference",
       "source": "skills/story/references/author-memory.md",
       "targets": [

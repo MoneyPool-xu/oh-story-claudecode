@@ -16,10 +16,12 @@ compare 链接；小节名使用 Keep a Changelog 的六个英文类别（`Added
 
 - 将 `story-natural-drafting`、`story-workflow`、`story-prose-style`、`story-reader-cold-read`、`story-chinese-proofreading`、`story-originality-audit`、`story-fanqie-compliance`、`story-serial-performance-diagnostics` 收编进 fork，形成 22 Skill 权威包。
 - 新增 Skill bundle 契约测试，锁定自然起草的三条反模板规则与 workflow 的全流程监测交接。
+- 新增通用 Narrative Kernel、七猫无线文风险诊断、七猫三层签约审稿，以及拆文 Stage 5 的 Platform Pattern 映射层；平台规则只调整信息排序与兑现速度，不接管人物因果和正文形状。
 
 ### Changed
 
 - `story-setup` 升至 `1.3.0`；Claude Code、Antigravity 与其他 skills-only 目标均从 fork 的同一 22 Skill 清单部署，保留目标目录中的未知用户 Skill。
+- narrative-writer 改为分层消费 `narrative_kernel → genre_prose_card → platform_constraints → prose_kernel`，`agents_version` 升至 30。
 
 ## [0.7.9] - 2026-08-30
 
