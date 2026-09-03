@@ -52,3 +52,16 @@ test("platform adaptation stays isolated from the universal prose kernel", async
   assert.match(extraction, /Platform Observation[\s\S]*Platform Pattern[\s\S]*Core Universal/);
   assert.doesNotMatch(kernel, /800 字|1500 字|男主撑腰/);
 });
+
+test("short fiction uses a bounded Fanqie layer and per-scene directive cards", async () => {
+  const shortSkill = await readFile(path.join(skillsRoot, "story-short-write", "SKILL.md"), "utf8");
+  const fanqie = await readFile(path.join(skillsRoot, "story-short-write", "references", "platforms", "fanqie-short-story.md"), "utf8");
+  const drafting = await readFile(path.join(skillsRoot, "story-natural-drafting", "SKILL.md"), "utf8");
+  const template = await readFile(path.join(skillsRoot, "story-natural-drafting", "references", "short-scene-directive-template.md"), "utf8");
+  assert.doesNotMatch(shortSkill, /否则一律用「我」|占全文 30-40%|不允许连续 2 节无情绪变化/);
+  assert.match(shortSkill, /场景价值门禁/);
+  assert.match(fanqie, /诊断器，不是目标函数/);
+  assert.match(fanqie, /不得冒充番茄官方要求/);
+  assert.match(drafting, /short-scene-directive-template\.md/);
+  assert.match(template, /第 NN 节写作指令卡/);
+});

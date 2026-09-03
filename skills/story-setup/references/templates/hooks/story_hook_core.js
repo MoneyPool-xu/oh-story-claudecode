@@ -725,7 +725,7 @@ function chapterCommercialGateIssue(book, chapter, outlineFile = null) {
   let doc
   try { doc = JSON.parse(fs.readFileSync(gate, "utf8")) } catch { return `第 ${chapter} 章商业价值门禁 JSON 无法解析；重新生成，不要手工放行。` }
   const digest = crypto.createHash("sha256").update(Buffer.from(outline, "utf8")).digest("hex")
-  if (doc.schema_version !== 1 || Number(doc.chapter) !== chapter || doc.outline_sha256 !== digest) return `第 ${chapter} 章商业价值门禁与当前细纲版本不一致；细纲改动后必须重新对账。`
+  if (doc.schema_version !== 2 || Number(doc.chapter) !== chapter || doc.outline_sha256 !== digest) return `第 ${chapter} 章商业价值门禁与当前细纲版本不一致；细纲改动后必须重新对账。`
   const dims = doc.dimensions && typeof doc.dimensions === "object" ? doc.dimensions : {}
   const required = ["state_change", "visible_gain_or_payment", "next_question", "protagonist_action"]
   const missing = required.filter((key) => !dims[key] || dims[key].status !== "present" || typeof dims[key].evidence !== "string" || !dims[key].evidence.trim())

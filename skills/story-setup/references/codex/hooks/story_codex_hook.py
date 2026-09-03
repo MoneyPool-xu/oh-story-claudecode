@@ -1304,7 +1304,7 @@ def chapter_commercial_gate_issue(book_dir: Path, chapter: int, outline_file: Pa
     except (OSError, json.JSONDecodeError):
         return f"第 {chapter} 章商业价值门禁 JSON 无法解析；重新生成，不要手工放行。"
     digest = hashlib.sha256(outline.encode("utf-8")).hexdigest()
-    if doc.get("schema_version") != 1 or doc.get("chapter") != chapter or doc.get("outline_sha256") != digest:
+    if doc.get("schema_version") != 2 or doc.get("chapter") != chapter or doc.get("outline_sha256") != digest:
         return f"第 {chapter} 章商业价值门禁与当前细纲版本不一致；细纲改动后必须重新对账。"
     dims = doc.get("dimensions") if isinstance(doc.get("dimensions"), dict) else {}
     required = ["state_change", "visible_gain_or_payment", "next_question", "protagonist_action"]

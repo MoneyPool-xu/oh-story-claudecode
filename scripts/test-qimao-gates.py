@@ -57,7 +57,7 @@ with tempfile.TemporaryDirectory() as directory:
         "protagonist_action": {"status": "present", "evidence": "主角主动公开副本"},
     }
     (gate_dir / "chapter_1_gate.json").write_text(json.dumps({
-        "schema_version": 1, "chapter": 1,
+        "schema_version": 2, "chapter": 1,
         "outline_sha256": hashlib.sha256(outline.read_bytes()).hexdigest(),
         "dimensions": dimensions, "decision": "PASS", "blockers": [],
     }, ensure_ascii=False), encoding="utf-8")

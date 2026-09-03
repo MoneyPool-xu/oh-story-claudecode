@@ -16,7 +16,7 @@ metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudec
 - 不故意加入错字、病句、方言、脏话、口误或随机短句来伪装真人。
 - 不承诺“零 AI”或检测器分数，只对具体读感负责。
 
-需要完整问题模式、修法和范例时，读取 [references/ai-style-prevention.md](references/ai-style-prevention.md)。每次新写、续写或重写章节时，还必须读取并使用 [references/chapter-directive-template.md](references/chapter-directive-template.md)。涉及动作含混、新词难懂、专家失智、假长句、谜底词复读或危险后反应过轻时，读取 [references/reader-clarity-and-human-causality.md](references/reader-clarity-and-human-causality.md)。
+需要完整问题模式、修法和范例时，读取 [references/ai-style-prevention.md](references/ai-style-prevention.md)。长篇每次新写、续写或重写章节时读取 [references/chapter-directive-template.md](references/chapter-directive-template.md)；短篇改读 [references/short-scene-directive-template.md](references/short-scene-directive-template.md)，不得把长篇章卡硬套到短篇小节。涉及动作含混、新词难懂、专家失智、假长句、谜底词复读或危险后反应过轻时，读取 [references/reader-clarity-and-human-causality.md](references/reader-clarity-and-human-causality.md)。
 
 ## 一、加载最小写作上下文
 
@@ -34,11 +34,11 @@ metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudec
 
 拆文只提供结构功能和写法参数。可以学习句群伸缩、信息延迟、紧张升级、视角限制和笔墨分配，不得复刻原句、专有名词、人物关系、罕见场景组合或情节节点顺序。项目正典与项目文风始终优先于对标；没有可读的拆文手法卡时，写明“无对标输入”，不得凭印象伪造学习结论。
 
-## 二、先生成每章写作指令卡
+## 二、先生成写作指令卡
 
-每次新写、续写或重写一章，必须先用固定模板生成《第 XXX 章自然成稿指令卡》，再把完整指令卡交给写作模型。**没有指令卡，或指令卡校验失败，不得起正文。**
+长篇每次新写、续写或重写一章，先生成《第 XXX 章自然成稿指令卡》。短篇先生成《短篇总指令卡》，再在每节动笔前生成《第 NN 节写作指令卡》。**没有对应卡，或指令卡校验失败，不得起正文。**
 
-文件项目默认保存到 `{书目录}/报告/自然成稿/第XXX章_写作指令.md`。它是派生写作控制文件，不是剧情正典；聊天写作也必须在内部完成同一张卡。固定字段、填写规则和交给模型的最终指令见 `references/chapter-directive-template.md`。
+长篇默认保存到 `{书目录}/报告/自然成稿/第XXX章_写作指令.md`；短篇路径与字段见 `references/short-scene-directive-template.md`。它们是派生写作控制文件，不是剧情正典；聊天写作也必须在内部完成对应卡。
 
 指令卡至少必须明确：
 

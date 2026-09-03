@@ -18,4 +18,4 @@
 - `next_question` 必须具体；“回房休息”“以后再说”“新的风暴将至”等完成性收束或抽象预告不算。
 - `core_advantage` 与 `contested_value` 可以 `not_applicable`，但两项不能同时用空话绕过，且本章仍须满足前三条。
 
-输出 `audit_logs/chapter_{N}_gate.json`，包含 `schema_version: 1`、章号、细纲相对路径、细纲 SHA-256、章节定位、六维证据、`decision: PASS|BLOCK` 与 `blockers`。任何细纲改动都会令旧 JSON 失效。Agent 负责语义判断，Hook 只校验版本和决定，不在本地假装预测真实流失率。
+输出 `audit_logs/chapter_{N}_gate.json`，包含 `schema_version: 2`、章号、细纲相对路径、细纲 SHA-256、章节定位、六维证据、`decision: PASS|BLOCK` 与 `blockers`。任何细纲改动都会令旧 JSON 失效。Agent 负责语义判断，Hook 只校验版本和决定，不在本地假装预测真实流失率。
