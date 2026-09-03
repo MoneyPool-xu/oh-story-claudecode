@@ -41,6 +41,15 @@ test("workflow keeps the pipeline-monitor handoff", async () => {
   assert.match(capabilities, /\| 全流程监测 \| `story-project-pipeline-monitor` \|/);
 });
 
+test("post-write style review is distinct from the prose baseline and gates deslop", async () => {
+  const workflow = await readFile(path.join(skillsRoot, "story-workflow", "references", "post-write-gate.md"), "utf8");
+  const pipeline = await readFile(path.join(skillsRoot, "story-project-pipeline-monitor", "scripts", "pipeline_monitor.py"), "utf8");
+  assert.match(workflow, /story-prose-style` 做写后文风反向审核/);
+  assert.match(pipeline, /\("style-review", "文风反向审核"/);
+  assert.match(pipeline, /\("deslop"[\s\S]*\["style-review"\]\)/);
+  assert.match(pipeline, /"style-review": \["报告\/文风\/\*\*\/\*反向审核\*\.md"/);
+});
+
 test("platform adaptation stays isolated from the universal prose kernel", async () => {
   const kernel = await readFile(path.join(skillsRoot, "story-long-write", "references", "narrative-kernel.md"), "utf8");
   const qimao = await readFile(path.join(skillsRoot, "story-long-write", "references", "platforms", "qimao-wireless.md"), "utf8");

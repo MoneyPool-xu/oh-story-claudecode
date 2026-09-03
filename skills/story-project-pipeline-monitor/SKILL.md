@@ -37,7 +37,9 @@ metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudec
 
 每次新写、续写或修改正文必须执行：
 
-`有效章卡 → story-long-write/story-short-write → story-review → story-deslop → story-chinese-proofreading → 触发条件成立时 story-reader-cold-read → 平台门禁`
+`有效章卡 → story-long-write/story-short-write → story-review → story-prose-style 写后反向审核 → story-deslop → story-chinese-proofreading → 触发条件成立时 story-reader-cold-read → 平台门禁`
+
+Dashboard 必须把“项目文风基准”和“写后文风反向审核”显示为两个节点。只有 `设定/文风.md` 不等于正文已经接受反向审核；缺少绑定当前正文版本的文风审核报告时显示 `NOT_STARTED`，正文晚于报告时显示 `STALE`。Grok、通用 Agent 等没有写后 Hook 的环境，应在 `review` 完成后明确提示用户继续运行反向审核、`story-deslop` 与终校，不得把 Skill 已安装显示成步骤已执行。
 
 任何步骤修改正文后，从最早受影响节点向后重跑。旧报告不得继续显示为完成，必须标记 `STALE`。
 

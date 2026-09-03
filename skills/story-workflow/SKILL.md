@@ -25,7 +25,7 @@ metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudec
 2. **项目准备**：`story-setup` / `story-import`。
 3. **自然成稿与正文**：`story-prose-style`（有样章或项目文风要求时）→ `story-natural-drafting` 生成并校验每章写作指令卡 → 将完整指令卡交给 `story-long-write` / `story-short-write`。自然成稿 skill 是写作的前置与伴随层，不单独改正典；没有当前有效的指令卡，不得启动正文生成。
 4. **读者体验**：`story-reader-cold-read`。
-5. **内容质量**：`story-review` → `story-originality-audit` → `story-deslop`。
+5. **内容质量**：`story-review` → `story-prose-style` 写后反向审核 → `story-originality-audit`（有参考来源时）→ `story-deslop`。
 6. **发布门禁**：`story-chinese-proofreading` → 平台专用门禁。番茄调用 `story-fanqie-compliance`；七猫调用 `story-review` 的七猫签约风险层；其他平台不得冒用番茄或七猫规则。
 7. **发布后学习**：真实连载数据走 `story-serial-performance-diagnostics`；编辑退稿原话走 `story-review` 的反馈闭环；两者形成项目级修订证据，再交对应写作 skill，不直接污染全局规则。
 
@@ -36,7 +36,7 @@ metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudec
 1. 先输出一行工作流：`目标 → 步骤 → 交付物`，然后执行第一个可运行节点。
 2. 遇到会改变题材、核心设定、主要人物动机、结局、发布平台或覆盖大量正文的选择时停下，请用户决定。
 3. 新写、续写或重写正文时，先由 `story-natural-drafting` 读取当前细纲、前章、追踪、文风、角色声纹及本章相关拆文手法，生成固定格式的《第XXX章自然成稿指令卡》，完成版本与必填字段校验，再把整张卡交给写作 skill；不要先批量生成模板稿再只做词语替换。缺卡、卡片过期、占位符未替换或只给写作模型一句风格摘要时，结果记为 `BLOCK`。
-4. 对可编辑稿件默认采用“检测即修复”：各节点确认成立的对白活人感、文风、AI模板、错别字、病句、标点、格式、平台表达和明确连续性问题，直接进入对应写作或修订 skill 修改，不等待用户逐项确认。
+4. 对可编辑稿件默认采用“检测即修复”：各节点确认成立的对白活人感、文风、AI模板、错别字、病句、标点、格式、平台表达和明确连续性问题，直接进入对应写作或修订 skill 修改，不等待用户逐项确认。正文写完后的文风反向审核、`story-deslop` 与中文终校不得因调用的是单个写作 skill 而静默省略。
 5. 每次修改后自动重跑本节点及被修改失效的后续节点，直到阻塞项清零；不得把能够安全修复的问题只写进报告交给用户处理。
 6. 脚本候选必须语义复核，误报和有明确功能的写法保留；不得为了“自动修复”机械替换或改坏人物声纹。
 7. 只有修改会改变题材、核心设定、主要人物动机、人物关系、伏笔答案、结局、发布平台，或数据证据只支持多个相互冲突的假设时才停下请用户裁决。

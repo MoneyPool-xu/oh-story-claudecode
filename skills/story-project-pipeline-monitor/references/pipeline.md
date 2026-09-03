@@ -32,6 +32,7 @@
 | 写作 | drafting | 正文写作/改稿 | 最新 `story-long-write` / `story-short-write` | 正文文件与追踪事务 |
 | 写作 | tracking | 人物、时间线、伏笔同步 | 写作/review tracking transaction | 追踪检查通过 |
 | 写后 | review | 综合审查 | 最新 `story-review` | 当前正文版本 review 报告无阻断项 |
+| 写后 | style-review | 文风反向审核 | `story-prose-style` | 绑定当前正文版本的文风校准/反向审核报告；文风基准文件本身不算 |
 | 写后 | deslop | 去AI味与 Gate H | 最新 `story-deslop` | 当前正文版本报告与复扫结果 |
 | 写后 | proofreading | 中文终校 | `story-chinese-proofreading` | 当前正文版本终校报告 |
 | 读者 | cold-read | 隔离冷读 | `story-reader-cold-read` | 当前发布态正文冷读报告 |
@@ -45,7 +46,7 @@
 
 ## 失效传播
 
-- 正文任意改写：`review`、`deslop`、`proofreading` 失效；若改变读者信息、场景顺序、钩子或事实，`cold-read` 也失效。
+- 正文任意改写：`review`、`style-review`、`deslop`、`proofreading` 失效；若改变读者信息、场景顺序、钩子或事实，`cold-read` 也失效。
 - 书名、简介、标签改变：`title-synopsis` 的冷读、终校和平台门禁失效。
 - 设定、动机、事实或伏笔改变：章卡、正文审查、追踪、冷读及全部后置门禁失效。
 - 平台改变：定位、简介标签、封面尺寸、平台合规、投稿包和最终门禁失效。
@@ -54,7 +55,7 @@
 
 ## 投稿完成条件
 
-必需完成：`setup`、`positioning`、`premise`、`characters`、`world`、`outline`、`golden-three`、`title-synopsis`、`prose-style`、`platform-rules`、`voiceprint`、`chapter-directive`、`drafting`、`tracking`、`review`、`deslop`、`proofreading`、`cold-read`、`cover`、`submission-package`、`final-gate`。
+必需完成：`setup`、`positioning`、`premise`、`characters`、`world`、`outline`、`golden-three`、`title-synopsis`、`prose-style`、`platform-rules`、`voiceprint`、`chapter-directive`、`drafting`、`tracking`、`review`、`style-review`、`deslop`、`proofreading`、`cold-read`、`cover`、`submission-package`、`final-gate`。
 
 条件完成：存在参考来源时 `originality` 与 `source-inventory` 必需；目标平台有专用门禁且准备发布时 `compliance` 必需。`submitted` 只能由实际投稿记录或用户确认完成；`editor-feedback` 仅在收到真实编辑反馈时运行，单次反馈不得自动升级全局规则。
 

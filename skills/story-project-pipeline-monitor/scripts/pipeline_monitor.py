@@ -33,14 +33,15 @@ STEPS = [
     ("drafting", "正文写作与改稿", "写作", "story-long-write / story-short-write", ["chapter-directive"]),
     ("tracking", "人物、时间线与伏笔同步", "写作", "story-long-write + tracking transaction", ["drafting"]),
     ("review", "综合审查", "写后", "story-review", ["drafting", "tracking"]),
-    ("deslop", "去AI味与 Gate H", "写后", "story-deslop", ["review"]),
+    ("style-review", "文风反向审核", "写后", "story-prose-style", ["review"]),
+    ("deslop", "去AI味与 Gate H", "写后", "story-deslop", ["style-review"]),
     ("proofreading", "中文终校", "写后", "story-chinese-proofreading", ["deslop"]),
     ("cold-read", "隔离冷读", "读者", "story-reader-cold-read", ["proofreading"]),
     ("originality", "原创性审计", "来源", "story-originality-audit", ["drafting"]),
     ("compliance", "目标平台规则门禁", "平台", "平台专用合规 skill", ["proofreading"]),
     ("cover", "封面制作与尺寸复核", "物料", "story-cover", ["title-synopsis"]),
     ("submission-package", "投稿包汇总", "投稿", "story-project-pipeline-monitor", ["title-synopsis", "proofreading", "cover"]),
-    ("final-gate", "投稿前总门禁", "投稿", "story-project-pipeline-monitor", ["review", "deslop", "proofreading", "cold-read", "submission-package"]),
+    ("final-gate", "投稿前总门禁", "投稿", "story-project-pipeline-monitor", ["review", "style-review", "deslop", "proofreading", "cold-read", "submission-package"]),
     ("submitted", "投稿与回执记录", "投稿", "人工记录", ["final-gate"]),
     ("editor-feedback", "编辑退稿反馈复盘", "反馈", "story-review 反馈闭环", ["submitted"]),
 ]
@@ -64,6 +65,7 @@ PATTERNS = {
     "market-scan": ["**/*扫榜*报告*.md", "**/*市场*报告*.md"],
     "benchmark-analysis": ["拆文库/*/**/*报告*.md", "**/*拆文报告*.md"],
     "review": ["报告/**/*review*.md", "报告/**/*审查*.md", "报告/工作流/*post-write-gate*.md", "*审查报告*.md"],
+    "style-review": ["报告/文风/**/*反向审核*.md", "报告/文风/**/*文风校准*.md", "报告/**/*style-review*.md", "报告/**/*文风漂移*.md"],
     "deslop": ["报告/**/*deslop*.md", "报告/**/*去AI*.md", "报告/工作流/*post-write-gate*.md", "*去AI*报告*.md"],
     "proofreading": ["报告/**/*proofread*.md", "报告/**/*终校*.md", "报告/**/*校对*.md", "报告/工作流/*post-write-gate*.md"],
     "cold-read": ["*冷读报告*.md", "报告/**/*冷读*.md"],
@@ -75,7 +77,7 @@ PATTERNS = {
     "editor-feedback": ["反馈/编辑退稿/*.md", "反馈/_feedback-state.json", "反馈/项目规则.md"],
 }
 
-GATE_IDS = {"chapter-directive", "tracking", "review", "deslop", "proofreading", "cold-read", "originality", "compliance", "final-gate"}
+GATE_IDS = {"chapter-directive", "tracking", "review", "style-review", "deslop", "proofreading", "cold-read", "originality", "compliance", "final-gate"}
 
 NEXT_ACTIONS = {
     "setup": "用当前最新版 story-setup 重新部署并验证 agents/references。",
@@ -96,6 +98,7 @@ NEXT_ACTIONS = {
     "drafting": "按有效章卡完成正文与改稿。",
     "tracking": "提交追踪事务并运行一致性检查。",
     "review": "修复开放 S1/S2 后重跑 story-review。",
+    "style-review": "对当前正文运行 story-prose-style 文风反向审核；没有基线时先建立项目文风与稳定样章锚点。",
     "deslop": "对当前正文运行去AI味与 Gate H 复检。",
     "proofreading": "对当前正文和投稿物料运行中文终校。",
     "cold-read": "隔离读取当前发布态材料并生成冷读账本。",
