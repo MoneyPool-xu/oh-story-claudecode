@@ -42,3 +42,9 @@ test("Claude Code marketplace exposes the canonical story skill bundle", async (
     assert.ok(bundled.isFile(), `${relativePath} must ship inside the pipeline monitor skill`);
   }
 });
+
+test("standalone pipeline dashboard loads the stylesheet it ships", async () => {
+  const html = await read("skills/story-project-pipeline-monitor/assets/index.html");
+  assert.match(html, /href="\/styles\.css"/);
+  assert.doesNotMatch(html, /href="\/pipeline\.css"/);
+});
