@@ -403,7 +403,16 @@ class Handler(SimpleHTTPRequestHandler):
 
     def translate_path(self, path):
         clean = urlparse(path).path.lstrip("/") or "index.html"
+        clean = {
+            "pipeline.html": "index.html",
+            "pipeline.css": "styles.css",
+            "pipeline.js": "app.js",
+        }.get(clean, clean)
         return str(self.assets / clean)
+
+    def end_headers(self):
+        self.send_header("Cache-Control", "no-store")
+        super().end_headers()
 
     def do_GET(self):
         parsed = urlparse(self.path)
@@ -423,7 +432,6 @@ class Handler(SimpleHTTPRequestHandler):
         self.send_response(status)
         self.send_header("Content-Type", "application/json; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
-        self.send_header("Cache-Control", "no-store")
         self.end_headers()
         self.wfile.write(body)
 

@@ -43,8 +43,12 @@ test("Claude Code marketplace exposes the canonical story skill bundle", async (
   }
 });
 
-test("standalone pipeline dashboard loads the stylesheet it ships", async () => {
+test("pipeline dashboard uses namespaced assets in both integrated and standalone modes", async () => {
   const html = await read("skills/story-project-pipeline-monitor/assets/index.html");
-  assert.match(html, /href="\/styles\.css"/);
-  assert.doesNotMatch(html, /href="\/pipeline\.css"/);
+  const server = await read("skills/story-project-pipeline-monitor/scripts/pipeline_monitor.py");
+  assert.match(html, /href="\/pipeline\.css"/);
+  assert.match(html, /src="\/pipeline\.js"/);
+  assert.match(server, /"pipeline\.css": "styles\.css"/);
+  assert.match(server, /"pipeline\.js": "app\.js"/);
+  assert.match(server, /Cache-Control/);
 });
