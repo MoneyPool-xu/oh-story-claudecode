@@ -1,11 +1,14 @@
 import assert from "node:assert/strict";
+import { execFile } from "node:child_process";
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import test from "node:test";
 import { fileURLToPath } from "node:url";
+import { promisify } from "node:util";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const skillsRoot = path.join(root, "skills");
+const execFileAsync = promisify(execFile);
 
 const expectedSkills = [
   "browser-cdp", "story", "story-chinese-proofreading", "story-cover",
@@ -48,6 +51,18 @@ test("post-write style review is distinct from the prose baseline and gates desl
   assert.match(pipeline, /\("style-review", "文风反向审核"/);
   assert.match(pipeline, /\("deslop"[\s\S]*\["style-review"\]\)/);
   assert.match(pipeline, /"style-review": \["报告\/文风\/\*\*\/\*反向审核\*\.md"/);
+});
+
+test("prose-style ships and self-tests every dialogue checker referenced by its instructions", async () => {
+  const skillRoot = path.join(skillsRoot, "story-prose-style");
+  const skill = await readFile(path.join(skillRoot, "SKILL.md"), "utf8");
+  const rubric = await readFile(path.join(skillRoot, "references", "style-review-rubric.md"), "utf8");
+  const checker = path.join(skillRoot, "scripts", "dialogue_naturalness.py");
+
+  assert.match(skill, /scripts\/dialogue_naturalness\.py/);
+  assert.match(rubric, /dialogue_naturalness\.py/);
+  const { stdout } = await execFileAsync("python3", [checker, "--self-test"]);
+  assert.match(stdout, /SELF-TEST PASS/);
 });
 
 test("platform adaptation stays isolated from the universal prose kernel", async () => {
