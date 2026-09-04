@@ -15,12 +15,13 @@ const expectedSkills = [
   "story-deslop", "story-fanqie-compliance", "story-import", "story-long-analyze",
   "story-long-scan", "story-long-write", "story-natural-drafting",
   "story-originality-audit", "story-project-pipeline-monitor", "story-prose-style",
+  "story-qimao-compliance",
   "story-reader-cold-read", "story-review", "story-serial-performance-diagnostics",
   "story-setup", "story-short-analyze", "story-short-scan", "story-short-write",
   "story-workflow",
 ];
 
-test("fork exposes the complete authoritative 22-skill bundle", async () => {
+test("fork exposes the complete authoritative 23-skill bundle", async () => {
   const entries = await readdir(skillsRoot, { withFileTypes: true });
   const names = entries.filter((entry) => entry.isDirectory()).map((entry) => entry.name).sort();
   assert.deepEqual(names, expectedSkills);

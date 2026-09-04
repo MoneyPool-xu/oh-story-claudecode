@@ -27,6 +27,7 @@ metadata: {"openclaw":{"source":"https://github.com/zenstory-ai/oh-story-claudec
 | 中文终校 | 校对、错别字、病句、标点、专名统一、终校 | `/story-chinese-proofreading` |
 | 原创性审计 | 洗稿风险、撞梗、抄袭自查、改编距离、来源审计 | `/story-originality-audit` |
 | 番茄合规 | 番茄审核、发布规范、发布前检查、恶意水文 | `/story-fanqie-compliance` |
+| 七猫合规 | 七猫审核、七猫投稿、签约被拒、赛道不对、前三章检查 | `/story-qimao-compliance` |
 | 连载数据诊断 | 掉量、追读下降、完读率、章留、评论复盘 | `/story-serial-performance-diagnostics` |
 | 编辑退稿复盘 | 退稿、拒签、编辑评语、驳回理由、渠道反馈 | `/story-review`（编辑反馈闭环） |
 | 全流程编排 | 全流程、下一步做什么、从开书到发布、整套检查、返工后重检 | `/story-workflow` |

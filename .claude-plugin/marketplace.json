@@ -119,6 +119,16 @@
       "skills": ["./skills/story-fanqie-compliance"]
     },
     {
+      "name": "story-qimao-compliance",
+      "description": "七猫投稿合规门禁。检查平台红线、赛道匹配、黄金三章节奏、CP前置与金手指可见性。",
+      "source": "./",
+      "strict": false,
+      "version": "1.0.0",
+      "category": "novel-quality",
+      "keywords": ["qimao", "compliance", "signing", "七猫", "投稿", "签约", "chinese"],
+      "skills": ["./skills/story-qimao-compliance"]
+    },
+    {
       "name": "story-serial-performance-diagnostics",
       "description": "连载表现诊断。结合章节结构与可用运营数据定位留存、追读和兑现问题。",
       "source": "./",
